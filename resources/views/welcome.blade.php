@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('title','Blog edit - ')
+@section('title','Search')
 
 @section('vue-components')
 <v-app>
-<example></example>
+<navbar></navbar>
+<search-page></search-page>
 </v-app>
 @endSection()

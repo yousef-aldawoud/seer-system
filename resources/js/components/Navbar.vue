@@ -51,7 +51,7 @@ export default {
             accountIcon:mdiAccount,
             links:[
                 {title:"My posts",index:0,link:""},
-                {title:"Profile",index:0,link:""},
+                {title:"Profile",index:1,link:""},
             ]
         }
     },methods:{

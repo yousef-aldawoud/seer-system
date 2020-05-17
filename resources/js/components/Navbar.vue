@@ -10,6 +10,7 @@
         <v-toolbar-title>SEER System</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-text-field
+            v-if="showSearchField"
             append-icon="mdi-magnify"
             dense 
             single-line

@@ -1,5 +1,6 @@
 <template>
-  <div>
+<v-content>
+    <div>
         <div class="flex md:w-1/3 ma-2">
             <input type="text" name="q" placeholder="search" class="search-input  pa-2 md:w-11/12 w-10/12" id="">
             <button class="search-button pa-2 md:w-1/12  w-2/12 green"><v-icon color="white">{{searchIcon}}</v-icon></button>
@@ -29,6 +30,8 @@
             </v-card>
         </div>
   </div>
+</v-content>
+  
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <v-content>
       
       <v-container>
         <div class="flex justify-center">
-          <img src="/imgs/seer-logo.svg" class="md:w-1/4 w-2/3"></img>
+          <img src="/imgs/seer-logo.svg" class="md:w-1/4 w-2/3" />
         </div>
         <v-row
             align="center"
@@ -27,7 +27,7 @@
           </v-col>
         </v-row>
       </v-container>
-  </div>
+  </v-content>
 </template>
 
 <script>

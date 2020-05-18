@@ -4,7 +4,7 @@
 
 @section('vue-components')
 <v-app>
-<navbar :show-search-field="false"></navbar>
+<navbar ></navbar>
 <posts></posts>
 </v-app>
 @endSection()

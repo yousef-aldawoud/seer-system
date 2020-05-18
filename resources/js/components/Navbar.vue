@@ -2,16 +2,17 @@
     <div>
         <v-navigation-drawer
             v-model="drawer"
+            color="blue darken-3"
             app
             dark
             >
             <v-list>
 
-                <v-list-item :class="link.index===currentSection?'blue darken-4':''" v-for="link in links" :key="link.index" >
+                <v-list-item @click="selectLink(link)" :class="link.link===loc  ?'blue darken-4':''" v-for="link in links" :key="link.index" >
                     <v-list-item-title>{{link.title}}</v-list-item-title>
                 </v-list-item>
                 <v-divider></v-divider>
-                <v-list-item >
+                <v-list-item @click="logout" >
                     <v-list-item-title>Logout</v-list-item-title>
                 </v-list-item>
 
@@ -22,7 +23,7 @@
             height="100px"
             tile
         >
-        <v-app-bar dark app>
+        <v-app-bar dark color="blue" app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
             <v-toolbar-title>SEER System</v-toolbar-title>
@@ -44,14 +45,18 @@
 <script>
 import { mdiAccount } from '@mdi/js';
 export default {
+    props:{
+        passedCurrentSection:{default:1000}
+    },
     data(){
         return{
+            loc:window.location.pathname,
             drawer:true,
-            currentSection:0,
+            currentSection:this.passedCurrentSection,
             accountIcon:mdiAccount,
             links:[
-                {title:"My posts",index:0,link:""},
-                {title:"Profile",index:1,link:""},
+                {title:"My posts",index:0,link:"/posts"},
+                {title:"Profile",index:1,link:"/profile"},
             ]
         }
     },methods:{
@@ -61,9 +66,8 @@ export default {
         openNavDrawer(){
             this.drawer = ! this.drawer;
         },
-        selectLink(index){
-            this.currentSection = index;
-            this.$emit("change-page",index)
+        selectLink(link){
+            window.location.href = link.link
         },logout(){
         }
     },

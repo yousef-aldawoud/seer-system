@@ -19,7 +19,6 @@
         <style>
             body{
                 font-family:Roboto;
-                background:#1a202c;
             }
             .mb-4{
                 margin-bottom:10px !important;

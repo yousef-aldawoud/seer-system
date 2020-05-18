@@ -24,3 +24,7 @@ Route::get('/search', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::get('/posts', function () {
+    return view('posts');
+});

@@ -28,3 +28,7 @@ Route::get('/login', function () {
 Route::get('/posts', function () {
     return view('posts');
 });
+
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});

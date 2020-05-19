@@ -12,8 +12,8 @@
           
           <v-col class="md:mx-40">
             <div class="flex">
-                <input type="text" name="q" placeholder="search" class="search-input grey lighten-2 pa-2 md:w-11/12 w-10/12" id="">
-                <button class="search-button pa-2 md:w-1/12  w-2/12 green"><v-icon color="white">{{searchIcon}}</v-icon></button>
+                <input v-on:keyup.enter="search" type="text" name="q" placeholder="search" class="search-input grey lighten-2 pa-2 md:w-11/12 w-10/12" id="">
+                <button @click="search" class="search-button pa-2 md:w-1/12  w-2/12 green"><v-icon color="white">{{searchIcon}}</v-icon></button>
             </div>
                 <v-btn  color="blue darken-4 m-0" small dark @click="toggleOptions">{{showOptions ? "Less options":"More options"}}</v-btn>
                 <div v-if="showOptions" class="flex flex-wrap">
@@ -48,6 +48,9 @@ export default {
       this.sortType=null;
       this.timeType=null
 
+    },
+    search(){
+        window.location.href = "/search"
     }
   }
 }

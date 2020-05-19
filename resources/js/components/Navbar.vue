@@ -29,6 +29,8 @@
             <v-toolbar-title>SEER System</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field
+                @click:append="search"
+                v-on:keyup.enter="search"
                 v-if="showSearchField"
                 append-icon="mdi-magnify"
                 dense 
@@ -69,6 +71,8 @@ export default {
         selectLink(link){
             window.location.href = link.link
         },logout(){
+        },search(){
+            window.location.href = "/search"
         }
     },
     props:{

@@ -1,14 +1,14 @@
 <template>
 <v-app>
     <admin-navbar v-on:change-page="changePage" ref="navbar"></admin-navbar>
-    <v-content class="bg-gray-700">
+    <v-content class="">
         <v-container>
-            <v-card dark>
+            <v-card>
                 <v-card-text>
                     <slot />
                     <div v-if="!templateLayout">
                         <admin-posts v-if="index==0"></admin-posts>
-                        <admin-users v-if="index==1"></admin-users>
+                        <admin-users v-if="index==1&&admin"></admin-users>
                     </div>
                 </v-card-text>
             </v-card>
@@ -35,6 +35,7 @@ export default {
     },
     data(){
         return {
+            admin:true,
             index:0,
         }
     },methods:{

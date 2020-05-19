@@ -41,13 +41,14 @@
 export default {
     data(){
         return{
+            admin:true,
             drawer:true,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 
             currentSection:0,
             drawer:true,
             links:[
                 {title:"Posts",index:0},
-                {title:"Users",index:1},
+                
             ]
         }
     },methods:{
@@ -62,6 +63,10 @@ export default {
             this.$emit("change-page",index)
         },logout(){
             this.$refs.logout_form.submit();
+        }
+    },mounted(){
+        if(this.admin){
+            this.links.push({title:"Users",index:1});
         }
     }
 }

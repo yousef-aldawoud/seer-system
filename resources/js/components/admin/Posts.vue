@@ -2,6 +2,7 @@
 
   <div>
         <h1>Posts</h1>
+        <v-text-field label='Search' placeholder="DIO" class=" w-full lg:w-4/12 mt-4"></v-text-field>
         <v-simple-table>
                 <template v-slot:default>
                 <thead>

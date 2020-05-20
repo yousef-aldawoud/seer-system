@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::post('/register',"UserController@register");
+Route::get('/verify/{token}',"UserController@verify");
 
 Route::get('/search', function () {
     return view('search-result');

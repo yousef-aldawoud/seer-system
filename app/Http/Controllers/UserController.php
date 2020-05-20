@@ -21,6 +21,16 @@ class UserController extends Controller
         return redirect()->back()->with(['message'=>"Your account is registered please. Check your email for verification link."]);
     }
 
+    public function verify($token){
+        $userActivation = UserActivation::where("token",$token)->first();
+        $userActivation === null ? abort(404) : null;
+        $user = $userActivation->user()->first();;
+        $user->verified = true;
+        $user->save();
+        $userActivation->delete();
+        return redirect('/');
+    }
+
     public function sendVerifyLink(User $user){
         $user->activations()->delete();
         do{

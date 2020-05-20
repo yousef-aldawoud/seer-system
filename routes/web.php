@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/register',"UserController@register");
+
 Route::get('/search', function () {
     return view('search-result');
 });

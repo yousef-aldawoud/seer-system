@@ -25,7 +25,7 @@
                         <v-btn :disabled="!validateLoginFields()" type="submit" class="blue text-white" block>Login</v-btn>
 
                     </form>
-                    <form action="sign-up" method="GET" class="w-full md:w-1/2 p-4">
+                    <form action="register" method="POST"  class="w-full md:w-1/2 p-4">
                         <h1 class="text-black">Sign up</h1>
 
                         <input type="hidden" name="_token" :value="csrf" />
@@ -39,6 +39,7 @@
 
                         <v-text-field
                             v-model="name"
+                            name="name"
                             placeholder="name that will show up"
                             :rules="[rules.required]"
                             type="name"
@@ -57,6 +58,7 @@
                             <v-checkbox label="Subscribe to our newspaper" color="yellow" v-model="subscribe" value="subscribe" name="subscribe"></v-checkbox>
                             
                         </span>
+                        <slot/>
                         <v-btn :disabled="!validateSignUpFields()" type="submit" class="blue text-white" block>Sign up</v-btn>
                     </form>
                 </v-card-text>

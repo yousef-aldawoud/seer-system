@@ -12,7 +12,7 @@
                     <v-list-item-title>{{link.title}}</v-list-item-title>
                 </v-list-item>
                 <v-divider></v-divider>
-                <v-list-item @click="logout" >
+                <v-list-item @click="logout" v-if="authenticated" >
                     <v-list-item-title>Logout</v-list-item-title>
                 </v-list-item>
 
@@ -52,14 +52,12 @@ export default {
     },
     data(){
         return{
+            authenticated:document.querySelector('meta[name="auth"]').getAttribute('content')==='1',
             loc:window.location.pathname,
             drawer:true,
             currentSection:this.passedCurrentSection,
             accountIcon:mdiAccount,
-            links:[
-                {title:"My posts",index:0,link:"/posts"},
-                {title:"Profile",index:1,link:"/profile"},
-            ]
+            links:[{title:"Login",index:0,link:"/login"},],
         }
     },methods:{
         changeIndex(index){
@@ -77,6 +75,13 @@ export default {
     },
     props:{
         showSearchField:{default:true},
+    },mounted(){
+        if(this.authenticated){
+            this.links = [
+                {title:"My posts",index:0,link:"/posts"},
+                {title:"Profile",index:1,link:"/profile"},
+            ]
+        }
     }
 }
 </script>

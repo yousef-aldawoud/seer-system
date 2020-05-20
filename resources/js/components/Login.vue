@@ -23,7 +23,7 @@
                             @click:append="showLoginPassword = !showLoginPassword"
                         ></v-text-field>
                         <v-btn :disabled="!validateLoginFields()" type="submit" class="blue text-white" block>Login</v-btn>
-
+                        <slot name="login-status" />
                     </form>
                     <form action="register" method="POST"  class="w-full md:w-1/2 p-4">
                         <h1 class="text-black">Sign up</h1>

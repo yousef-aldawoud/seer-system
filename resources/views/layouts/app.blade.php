@@ -6,8 +6,8 @@
         <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
         <meta name="user" content="{{ Auth::user() }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="csrf-token" content="{{ auth()->user() }}">
-
+        <meta name="auth" content='{{ Auth::check() ? "1" : "0" }}'>
+        
         <!-- Fonts -->
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/tailwind.css">

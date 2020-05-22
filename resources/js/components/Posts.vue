@@ -3,6 +3,10 @@
   <v-content>
       <v-container>
         <h1>Posts</h1>
+        <form action="/posts/create" method="post">
+        <input type="hidden" name="_token" :value="csrf">
+            <v-btn type="submit" color="green" dark>Create new article</v-btn>
+        </form>
         <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -44,6 +48,7 @@
 export default {
     data(){
         return{
+            csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             page:1,
             lastPage:1,
             posts:[

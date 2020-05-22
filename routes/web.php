@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 Route::post('/register',"UserController@register");
 Route::post('/login',"UserController@login");
+Route::post('/posts/create',"PostController@create");
+Route::get('/posts/{post}/edit',"PostController@edit")->name("post-edit");
+Route::post('/posts/{post}/update',"PostController@update");
+
 Route::get('/verify/{token}',"UserController@verify");
 
 Route::get('/search', function () {
@@ -27,11 +31,9 @@ Route::get('/search', function () {
 
 Route::get('/login', function () {
     return view('login');
-});
+})->name("login");
 
-Route::get('/posts', function () {
-    return view('posts');
-});
+Route::get('/posts', "PostController@showUserPosts");
 
 Route::get('/admin', function () {
     return view('admin.dashboard');

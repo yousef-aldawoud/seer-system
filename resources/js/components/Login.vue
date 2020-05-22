@@ -54,10 +54,7 @@
                             label="Password"
                             @click:append="showSignUpPassword = !showSignUpPassword"
                         ></v-text-field>
-                        <span class="inline-block">
-                            <v-checkbox label="Subscribe to our newspaper" color="yellow" v-model="subscribe" value="subscribe" name="subscribe"></v-checkbox>
-                            
-                        </span>
+
                         <slot/>
                         <v-btn :disabled="!validateSignUpFields()" type="submit" class="blue text-white" block>Sign up</v-btn>
                     </form>

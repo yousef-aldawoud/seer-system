@@ -65,11 +65,12 @@ class PostTest extends TestCase
         $post = new Post;
         $post->user_id = $user->id;
         $post->update($postInfo);
-
+        $post->save();
+        $route = route("post-delete",$post->id);
         $response = $this->actingAs($user)
-        ->json('DELETE', route("post-delete",$post->id));
+        ->json('DELETE', $route);
         $response->assertJson(["status"=>"success"]);
-        $this->assertDeleted("posts",$post);
+        $this->assertDeleted("posts",["id"=>$post->id]);
     }
 
 

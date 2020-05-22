@@ -32,9 +32,17 @@ class PostController extends Controller
         $post->save();
         return ["status"=>"success"];
     }
-
+    
     public function showUserPosts() {
         return view('posts');
+    }
+    
+    public function delete(Post $post){
+        if(auth()->user()->id==$post->user_id){
+            $post->delete();
+            return ["status"=>"success"];
+        }
+        return ["status"=>"failed"];
     }
     
 

@@ -7,6 +7,23 @@
         <input type="hidden" name="_token" :value="csrf">
             <v-btn type="submit" color="green" dark>Create new article</v-btn>
         </form>
+        <confirm @confirmed="deletePost" ref="confirm_delete">
+                <div class="text-white">
+                    Are you sure you want to delete this article "<strong>{{selectedPost.title}}</strong>" ?
+                </div>
+        </confirm>
+        <v-snackbar
+            v-model="snackbar"
+            >
+            {{ snackbarText }}
+            <v-btn
+                color="yellow"
+                text
+                @click="snackbar = false"
+            >
+                Close
+            </v-btn>
+        </v-snackbar>
         <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -28,7 +45,7 @@
                             <v-chip class="" small color="green" text-color="white" v-if="post.status==='accepted'">accepted</v-chip>
                         </td>
                         <td>
-                            <v-icon color="red" @click="requestDeletePost()">mdi-delete</v-icon>
+                            <v-icon color="red" @click="requestDeletePost(post)">mdi-delete</v-icon>
                         </td>
                     </tr>
                 </tbody>
@@ -50,6 +67,9 @@ const axios = require("axios");
 export default {
     data(){
         return{
+            snackbarText:"",
+            snackbar:false,
+            selectedPost:0,
             searchQuery:"",
             csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             page:1,
@@ -69,9 +89,24 @@ export default {
             }).then(function(){
 
             });
-        },
-        requestDeletePost(){
+        },deletePost(){
+            axios.delete("/posts/"+this.selectedPost.id)
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.$emit('post-deleted');
+                    this.snackbarText = "Snackbar deleted successfully"
+                    this.snackbar = true;
+                    this.getPosts();
+                }
+            }).catch(function(error){
 
+            }).then(function(){
+
+            });
+        },
+        requestDeletePost(post){
+            this.selectedPost = post; 
+            this.$refs.confirm_delete.toggle();
         },showPost(){
 
         }

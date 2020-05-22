@@ -5,6 +5,7 @@ import vuetify from './vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use( CKEditor );
+Vue.component('confirm', require('./components/Confirm.vue').default);
 Vue.component('admin-posts', require('./components/admin/Posts.vue').default);
 Vue.component('admin-users', require('./components/admin/Users.vue').default);
 Vue.component('admin-dashboard', require('./components/admin/Dashboard.vue').default);

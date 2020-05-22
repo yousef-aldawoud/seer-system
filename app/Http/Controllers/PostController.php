@@ -45,5 +45,9 @@ class PostController extends Controller
         return ["status"=>"failed"];
     }
     
+    public function userPosts(){
+        return auth()->user()->posts()->paginate(10);
+    }
+    
 
 }

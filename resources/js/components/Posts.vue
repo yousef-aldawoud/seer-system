@@ -22,6 +22,7 @@
                         <td>{{ post.title }}</td>
                         <td>{{ post.created_at }}</td>
                         <td>
+                            <v-chip class="" small color="yellow darken-2" text-color="white" v-if="post.status==='draft'">draft</v-chip>
                             <v-chip class="" small color="blue" text-color="white" v-if="post.status==='validation'">Pending</v-chip>
                             <v-chip class="" small color="red" text-color="white" v-if="post.status==='rejected'">rejected</v-chip>
                             <v-chip class="" small color="green" text-color="white" v-if="post.status==='accepted'">accepted</v-chip>
@@ -35,7 +36,7 @@
             </v-simple-table>
             <v-pagination
                 class="mt-4"
-                @input="getUsers"
+                @input="getPosts"
                 color="yellow darken-3"
                 v-model="page"
                 :length="lastPage"
@@ -45,27 +46,37 @@
 </template>
 
 <script>
+const axios = require("axios");
 export default {
     data(){
         return{
+            searchQuery:"",
             csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             page:1,
             lastPage:1,
             posts:[
-                {id:1,title:"Python tutorial",created_at:"2020-02-20",status:"validation"},
-                {id:2,title:"Java tutorial",created_at:"2020-02-20",status:"accepted"},
-                {id:3,title:"Java tutorial",created_at:"2020-02-20",status:"rejected"},
             ]
         }
     },methods:{
-        getUsers(){
+        getPosts(){
+            axios.get("/api/user/posts"+'?page='+this.page+'&q='+this.searchQuery)
+            .then((response)=>{
+                this.posts = response.data.data
+                this.page = response.data.current_page
+                this.lastPage = response.data.last_page
+            }).catch(function(error){
 
+            }).then(function(){
+
+            });
         },
         requestDeletePost(){
 
         },showPost(){
 
         }
+    },mounted(){
+        this.getPosts();
     }
 }
 </script>

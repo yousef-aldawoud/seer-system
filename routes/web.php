@@ -23,7 +23,7 @@ Route::post('/posts/create',"PostController@create");
 Route::get('/posts/{post}/edit',"PostController@edit")->name("post-edit");
 Route::post('/posts/{post}/update',"PostController@update")->name("post-update");
 Route::get('/posts', "PostController@showUserPosts");
-// Route::get('/api/user/posts', "PostController@userPosts");
+Route::get('/api/user/posts', "PostController@userPosts");
 Route::delete('/posts/{post}/',"PostController@delete")->name("post-delete");
 
 Route::get('/verify/{token}',"UserController@verify");

@@ -21,7 +21,7 @@ Route::post('/register',"UserController@register");
 Route::post('/login',"UserController@login");
 Route::post('/posts/create',"PostController@create");
 Route::get('/posts/{post}/edit',"PostController@edit")->name("post-edit");
-Route::post('/posts/{post}/update',"PostController@update");
+Route::post('/posts/{post}/update',"PostController@update")->name("post-update");
 
 Route::get('/verify/{token}',"UserController@verify");
 

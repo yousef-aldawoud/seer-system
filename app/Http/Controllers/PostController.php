@@ -22,10 +22,16 @@ class PostController extends Controller
     }
 
     public function edit(Post $post){
+        if($post->status === "accepted" || $post->status === "validation"){
+            abort(404);
+        }
         return view("post-edit")->with(['post'=>$post]);
     }
 
     public function update(Post $post,CreatePostRequest $request){
+        if($post->status === "accepted" || $post->status === "validation"){
+            return ['status'=>"failed"];
+        }
         $post->title = $request->title;
         $post->description = $request->description;
         $post->content = $request->content;

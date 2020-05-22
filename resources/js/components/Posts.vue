@@ -46,6 +46,7 @@
                         </td>
                         <td>
                             <v-icon color="red" @click="requestDeletePost(post)">mdi-delete</v-icon>
+                            <v-icon color="grey" v-if="post.status === 'draft' || post.status === 'rejected'" @click="goToEditLink(post)">mdi-pencil</v-icon>
                         </td>
                     </tr>
                 </tbody>
@@ -78,6 +79,9 @@ export default {
             ]
         }
     },methods:{
+        goToEditLink(post){
+            window.location.href = "/posts/"+post.id+"/edit"
+        },
         getPosts(){
             axios.get("/api/user/posts"+'?page='+this.page+'&q='+this.searchQuery)
             .then((response)=>{

@@ -17,6 +17,8 @@ Vue.component('example', require('./components/ExampleComponent.vue').default);
 Vue.component('login', require('./components/Login.vue').default);
 Vue.component('posts', require('./components/Posts.vue').default);
 Vue.component('post-edit', require('./components/PostEdit.vue').default);
+Vue.component('references', require('./components/References.vue').default);
+Vue.component('reference-dialog', require('./components/ReferenceDialog.vue').default);
 
 window.vuetify = vuetify
 const app = new Vue({

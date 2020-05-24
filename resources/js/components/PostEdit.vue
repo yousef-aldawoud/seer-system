@@ -22,6 +22,7 @@
             <v-btn @click="savePost" small color="green" :loading="saveLoading" dark>save</v-btn>
             <v-btn small color="purple" dark>Submit for evaluation</v-btn>
         </div>
+        <references :post_id="post.id" />
         <v-snackbar
             v-model="snackbar"
             >

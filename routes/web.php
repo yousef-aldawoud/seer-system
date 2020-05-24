@@ -20,6 +20,11 @@ Route::get('/', function () {
 Route::post('/register',"UserController@register");
 Route::post('/login',"UserController@login");
 Route::post('/posts/create',"PostController@create");
+Route::post('/references',"ReferenceController@create");
+Route::get('/references',"ReferenceController@get");
+Route::get('/posts/{post}/references',"PostController@getReferences");
+Route::post('/posts/{post}/refrences/attach',"PostController@attachReference");
+Route::post('/posts/{post}/refrences/dettach',"PostController@dettachReference");
 Route::get('/posts/{post}/edit',"PostController@edit")->name("post-edit");
 Route::post('/posts/{post}/update',"PostController@update")->name("post-update");
 Route::get('/posts', "PostController@showUserPosts");

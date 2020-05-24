@@ -1,6 +1,6 @@
 <template>
     <v-dialog :width="width" v-model="dialog">
-        <v-card dark>
+        <v-card>
             <v-card-title>Confirm</v-card-title>
             <v-card-text>
                 <slot />

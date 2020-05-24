@@ -44,7 +44,7 @@ class PostController extends Controller
     }
     
     public function delete(Post $post){
-        if(auth()->user()->id==$post->user_id){
+        if(auth()->user()->id==$post->user_id || auth()->user()->hasRole("admin")){
             $post->delete();
             return ["status"=>"success"];
         }
@@ -55,5 +55,27 @@ class PostController extends Controller
         return auth()->user()->posts()->paginate(10);
     }
     
+    public function getReferences(Post $post){
+        return $post->references()->get();
+    }
+    
+    public function attachReference(Post $post, Request $request){
+        if($request->reference_id !==null){
+            $status = $post->references()->attach($request->reference_id);
+            if($status){
+                return ["status"=>"success"];
+            }
+        }
+        return ["status"=>"failed"];
+    }
+    public function dettachReference(Post $post, Request $request){
+        if($request->reference_id !==null){
+            $status = $post->references()->detach($request->reference_id);
+            if($status){
+                return ["status"=>"success"];
+            }
+        }
+        return ["status"=>"failed"];
+    }
 
 }

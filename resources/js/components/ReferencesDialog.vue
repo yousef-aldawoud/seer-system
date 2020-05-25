@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" persistent>
         <v-card>
             <v-card-title>References</v-card-title>
             <v-card-text>
@@ -24,8 +24,8 @@
                                     <v-chip class="" small color="green" text-color="white" v-if="reference.status==='accepted'">accepted</v-chip>
                                 </td>
                                 <td>
-                                    <v-btn v-if="!attachedRef(reference)" small class="green" @click="attach" dark>Add to this article</v-btn>
-                                    <v-btn v-else small class="red" @click="deatach" dark>Detach from this article</v-btn>
+                                    <v-btn v-if="!attachedRef(reference)" small class="green" @click="attach(reference)" dark>Add to this article</v-btn>
+                                    <v-btn v-else small class="red" @click="deatach(reference)"  dark>Detach from this article</v-btn>
                                 </td>
                             </tr>
                         </tbody>
@@ -51,10 +51,11 @@
 const axios = require("axios");
 export default {
     props:{
-        attachedRefs:{type:Array,default:()=>{return[]}}
+        post_id:{required:true},
     },
     data(){
         return{
+            attachedRefs:[],
             attached:false,
             dialog:false,
             references:[],
@@ -63,9 +64,42 @@ export default {
             searchQuery:"",
         }
     },methods:{
-        attach(){
+        getArticleReferences(){
+            axios.get("/posts/"+this.post_id+"/references"+'?page='+this.page)
+            .then((response)=>{
+                this.attachedRefs = response.data
 
-        },deatach(){},
+            }).catch(function(error){
+
+            }).then(function(){
+
+            });
+        },
+        attach(reference){
+            axios.post("/posts/"+this.post_id+"/refrences/attach",{reference_id:reference.id})
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.attached = true;
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+                this.getReferences();
+            
+            });
+        },deatach(reference){
+            axios.post("/posts/"+this.post_id+"/refrences/dettach",{reference_id:reference.id})
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.attached = true;
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+                this.getReferences();
+                    
+            });
+        },
         getReferences(){
             axios.get("/references"+'?page='+this.page+'&q='+this.searchQuery)
             .then((response)=>{
@@ -77,6 +111,7 @@ export default {
             }).then(function(){
 
             });
+            this.getArticleReferences();
         },
         toggle(){
             if(this.dialog && this.attached){
@@ -85,14 +120,13 @@ export default {
             }
             this.dialog = !this.dialog;
             this.dialog ? this.getReferences():null;
+            this.dialog ? this.getArticleReferences():null;
             this.searchQuery = "";
         },
         attachedRef(ref){
             for (let i=0;i<this.attachedRefs.length;i++){
                 if(this.attachedRefs[i].id===ref.id){
-                    console.log(this.attachedRefs[i].title)
                     return true;
-
                 }
             }
             return false;

@@ -1,7 +1,7 @@
 <template>
   <div>
       <reference-dialog @created="attachToArticle" ref="create_dialog"></reference-dialog>
-      <references-dialog :attached-refs="articleReferences" @attached="getArticleReferences" ref="refs_dialog"></references-dialog>
+      <references-dialog :post_id='post_id' :attached-refs="articleReferences" @attached="getArticleReferences" ref="refs_dialog"></references-dialog>
       <v-card>
           <v-card-text>
               <v-btn color="green" @click="showCreateDialog" small dark>Create new reference</v-btn>

@@ -32,8 +32,13 @@ class ReferenceController extends Controller
 
         $reference->user_id = auth()->user()->id;
         $reference->title = $request->title;
-        $reference->link = $request->details['link'];
-        $reference->author = $request->details['author'];
+        if(array_key_exists("link",$request->details)){
+            $reference->link = $request->details['link'];
+        }
+
+        if(array_key_exists("author",$request->details)){
+            $reference->author = $request->details['author'];
+        }
         $reference->save();
         return ['status'=>"success","reference"=>$reference];
     }

@@ -16,6 +16,7 @@ class CreateReferencesTable extends Migration
         Schema::create('references', function (Blueprint $table) {
             $table->id();
             $table->string("title");
+            $table->string("user_id");
             $table->string("author")->nullable();
             $table->string("link")->nullable();
             $table->enum("type",['book','link']);

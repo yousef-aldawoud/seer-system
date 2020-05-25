@@ -78,4 +78,26 @@ class PostController extends Controller
         return ["status"=>"failed"];
     }
 
+    public function changeStatus(Post $post,Request $request){
+        if($post->status==="draft"){
+            return ["status"=>"failed"];
+        }
+        $post->status = $request->status;
+        $post->save();
+        return ["status"=>"success"];
+    }
+
+    public function submitForValidation(Post $post){
+        if($post->status !== "draft"){
+            return ["status"=>"faild"];
+        }
+        $post->status = "validation";
+        $post->save();
+        return ["status"=>"success"];
+    }
+
+    public function show(Post $post){
+        return view("post")->with(['post'=>$post]);
+    }
+
 }

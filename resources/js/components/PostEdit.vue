@@ -3,7 +3,7 @@
         <h1>{{ postInfo.title === "" ? "Edit post" : postInfo.title }}</h1>
         <div>
             <v-btn @click="savePost" small color="green" :loading="saveLoading" dark>save</v-btn>
-            <v-btn small color="purple" dark>Submit for evaluation</v-btn>
+            <v-btn @click="submitForValidation" small color="purple" dark>Submit for evaluation</v-btn>
         </div>
         <div id="errors">
             <div class="text-red-500" v-for="error in errors" :key="error">
@@ -66,6 +66,22 @@ export default {
             snackbarText:"",
         }
     },methods:{
+
+        submitForValidation(){
+            axios.post("/posts/"+this.postInfo.id+"/validation",{_token:this.csrf})
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.snackbarText = "article submited for validation";
+                    this.snackbar = true;
+                    window.location.href = '/posts';
+                }
+                this.errors = response.data.errors;
+            }).catch(function(error){
+
+            }).then(()=>{
+            });
+        },
+
         savePost(){
             this.postInfo.csrf = this.csrf;
             this.saveLoading = true;

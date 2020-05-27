@@ -25,7 +25,7 @@ building:
         - php composer.phar install
         - php composer.phar dump-autoload
         - chmod 777 -R storage
-        - docker-php-ext-install pdo_mysql zip
+        - docker-php-ext-install pdo_mysql
         - cp .env.example .env
         - ls .
         - php artisan key:generate

@@ -6,6 +6,7 @@
     <title>test</title>
 </head>
 <body>
+    <h1>TESTING PAGE</h1>
     <form action="/login" method="post">
         <input type="email" name="email">
         <input type="password" name="password">

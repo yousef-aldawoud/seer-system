@@ -39,12 +39,16 @@ test:
         - docker-php-ext-install pdo_mysql
         - ls .
         - cat .env
+        - rm .env.testing .env.gitlab
         - php artisan test
 
 variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)
+    DB_HOST: mysql
     MYSQL_DATABASE: seer
     MYSQL_ROOT_PASSWORD: root
+    MYSQL_PASSWORD: root
+    MYSQL_USER: user
     Host: mysql
-    User: root
+    User: user
           

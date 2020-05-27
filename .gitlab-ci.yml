@@ -29,12 +29,13 @@ building:
         - cp .env.gitlab .env
         - ls .
         - php artisan key:generate
-        - php artisan migrate
+        - cat .env
 test:
     dependencies:
         - building
     stage: test
     script:
+        - php artisan migrate
         - ls .
         - cat .env
         - php artisan test

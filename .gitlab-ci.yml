@@ -27,6 +27,7 @@ building:
         - chmod 777 -R storage
         - docker-php-ext-install pdo_mysql
         - cp .env.gitlab .env
+        - cp .env.gitlab .env.testing
         - ls .
         - php artisan key:generate
         - php artisan migrate
@@ -40,7 +41,7 @@ test:
         - ls .
         - cat .env
         - rm .env.testing .env.gitlab
-        - php artisan test
+        - php artisan test --env=testing
 
 variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)

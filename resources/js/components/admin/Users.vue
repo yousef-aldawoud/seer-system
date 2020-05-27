@@ -21,8 +21,10 @@
                     <td>{{ user.created_at }}</td>
                     <td>
                         <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>
-                        <v-btn v-if="user.disabled || !user.admin" small class="green">Enable</v-btn>
-                        <v-btn v-else-if=" !user.admin" small class="red">Disable</v-btn>
+                        <v-btn v-if="user.disabled || !user.admin" small dark class="green">Enable</v-btn>
+                        <v-btn v-else-if=" !user.admin" small class="red" dark>Disable</v-btn>
+                        <v-btn x-small dark>Make moderator</v-btn>
+
                     </td>
                 </tr>
             </tbody>

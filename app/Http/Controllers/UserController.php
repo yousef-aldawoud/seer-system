@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ResetPasswordRequest;
+use App\PasswordReset;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterUserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -73,5 +75,27 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with(['login-status'=>'your password or email is incorrect']);
+    }
+
+
+    public function showPasswordReset($token){
+        $passwordReset = PasswordReset::where('token',$token)->first() ;
+        $passwordReset=== null ? abort(404) : null;
+        return view('user.password-reset')->with(['token'=>$token]);
+    }
+
+    public function resetPassword($token,ResetPasswordRequest $request)
+    {
+        $passwordReset = PasswordReset::where('token',$token)->first() ;
+        $passwordReset=== null ? abort(404) : null;
+        if($request->password !== $request->password_confirm){
+            return redirect()->back();
+        }
+        $user = $passwordReset->user()->first();
+        $user->password = Hash::make($request->password);
+        $user->verified = true;
+        $user->save();
+        $passwordReset->delete();
+        return redirect('/');
     }
 }

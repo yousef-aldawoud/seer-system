@@ -12,6 +12,11 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
 
+
+    public function passwordResets(){
+        return $this->hasMany('App\PasswordReset');
+    }
+
     public function activations(){
         return $this->hasMany("App\UserActivation");
     }

@@ -29,6 +29,7 @@ building:
         - cp .env.example .env
         - ls .
         - php artisan key:generate
+        - php artisan migrate
 test:
     dependencies:
         - building

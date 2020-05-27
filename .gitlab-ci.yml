@@ -8,7 +8,7 @@ stages:
 
 image: php:7.2
 services: 
-    - mysql:latest
+    - mysql:5.7
 
 building:
     artifacts:

@@ -29,13 +29,14 @@ building:
         - cp .env.gitlab .env
         - ls .
         - php artisan key:generate
+        - php artisan migrate
         - cat .env
 test:
     dependencies:
         - building
     stage: test
     script:
-        - php artisan migrate
+        - docker-php-ext-install pdo_mysql
         - ls .
         - cat .env
         - php artisan test

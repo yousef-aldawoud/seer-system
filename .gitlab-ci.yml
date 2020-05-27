@@ -42,4 +42,6 @@ variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)
     MYSQL_DATABASE: seer
     MYSQL_ROOT_PASSWORD: root
+    Host: mysql
+    User: root
           

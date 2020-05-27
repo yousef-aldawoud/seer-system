@@ -25,6 +25,7 @@ Route::post('/references',"ReferenceController@create")->name('reference-create'
 Route::get('password-reset/{token}','UserController@showPasswordReset');
 Route::post('password-reset/{token}','UserController@resetPassword');
 
+Route::get('/users',"AdminController@getUsers");
 Route::get('/references',"ReferenceController@get");
 Route::get('/posts/{post}/references',"PostController@getReferences");
 Route::post('/posts/{post}/refrences/attach',"PostController@attachReference");

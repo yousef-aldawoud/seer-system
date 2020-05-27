@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Users</h1>
-        <v-text-field label='Search' placeholder="DIO" class=" w-full lg:w-4/12 mt-4"></v-text-field>
+        <v-text-field @input="getUsers" v-model="searchQuery" label='Search' placeholder="User name" class=" w-full lg:w-4/12 mt-4"></v-text-field>
         <v-simple-table>
             <template v-slot:default>
             <thead>
@@ -21,9 +21,9 @@
                     <td>{{ user.created_at }}</td>
                     <td>
                         <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>
-                        <v-btn v-if="user.disabled || !user.admin" small dark class="green">Enable</v-btn>
+                        <v-btn v-if="user.disabled" small dark class="green">Enable</v-btn>
                         <v-btn v-else-if=" !user.admin" small class="red" dark>Disable</v-btn>
-                        <v-btn x-small dark>Make moderator</v-btn>
+                        <v-btn @click="makeModerator" x-small dark>Make moderator</v-btn>
 
                     </td>
                 </tr>
@@ -40,20 +40,36 @@
     </div>
 </template>
 <script>
+const axios = require("axios");
 export default {
+    mounted(){
+        this.getUsers();
+    },
     data(){
         return{
             page:1,
             lastPage:2,
             users:[
-                {id:1,name:"Joesph Jostar",email:"joseph@example.com",created_at:"2020/11/20",admin:false,disabled:false,},
-                {id:2,name:"DIO Brando",email:"kono-dio@example.com",created_at:"2020/11/20",admin:true,disabled:false,},
-            ]
+
+            ],
+            searchQuery:"",
         }
     },methods:{
         requestDeleteUser(user){
 
         },getUsers(){
+            axios.get("/users/"+'?page='+this.page+"&q="+this.searchQuery)
+            .then((response)=>{
+                this.users = response.data.data;
+                this.lastPage = response.data.last_page;
+                this.page = response.data.current_page;
+
+            }).catch(function(error){
+
+            }).then(function(){
+
+            });
+        },makeModerator(){
 
         }
     }

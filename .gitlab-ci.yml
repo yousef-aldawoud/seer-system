@@ -41,6 +41,7 @@ test:
         - ls .
         - cat .env
         - rm .env.testing .env.gitlab
+        - php artisan migrate
         - php artisan test --env=testing
 
 variables:

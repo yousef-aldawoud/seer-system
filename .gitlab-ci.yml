@@ -30,13 +30,13 @@ building:
         - ls .
         - php artisan key:generate
         - php artisan migrate
-        - php artisan test
 test:
     dependencies:
         - building
     stage: test
     script:
         - ls .
+        - cat .env
         - php artisan test
 
 variables:

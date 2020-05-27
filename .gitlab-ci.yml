@@ -26,7 +26,7 @@ building:
         - php composer.phar dump-autoload
         - chmod 777 -R storage
         - docker-php-ext-install pdo_mysql
-        - cp .env.example .env
+        - cp .env.gitlab .env
         - ls .
         - php artisan key:generate
         - php artisan migrate

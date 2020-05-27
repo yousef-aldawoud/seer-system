@@ -17,7 +17,18 @@ class AdminController extends Controller
         return ["status"=>"success"];
     }
 
+    public function removeModerator(User $user){
+        $user->removeRole("moderator");
+        return ["status"=>"success"];
+    }
+
     public function getUsers(UserFilter $filter){
-        return User::filter($filter)->paginate(10);
+        $users = User::filter($filter)->paginate(10);
+        $users->map(function($user) use ($users){
+            $user['admin'] = $user->hasRole("admin");
+            $user['moderator'] = $user->hasRole("moderator");
+            return $user;
+        });
+        return $users;
     }
 }

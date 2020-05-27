@@ -23,7 +23,8 @@
                         <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>
                         <v-btn v-if="user.disabled" small dark class="green">Enable</v-btn>
                         <v-btn v-else-if=" !user.admin" small class="red" dark>Disable</v-btn>
-                        <v-btn @click="makeModerator" x-small dark>Make moderator</v-btn>
+                        <v-btn v-if="user.moderator" @click="removeModerator(user)" x-small dark>Remove moderator</v-btn>
+                        <v-btn v-else @click="makeModerator(user)" x-small dark>Make moderator</v-btn>
 
                     </td>
                 </tr>
@@ -69,8 +70,28 @@ export default {
             }).then(function(){
 
             });
-        },makeModerator(){
-
+        },makeModerator(user){
+            axios.post("/users/"+user.id+"/make-moderator")
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.getUsers();
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+            
+            });
+        },removeModerator(user){
+            axios.post("/users/"+user.id+"/remove-moderator")
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.getUsers();
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+            
+            });
         }
     }
 }

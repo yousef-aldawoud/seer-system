@@ -136,6 +136,13 @@ class PostController extends Controller
         }
         $post->status = $request->status;
         $post->save();
+        if($post->status === "accepted"){
+            $references = $post->references()->get();
+            foreach($references as $reference){
+                $reference->status='accepted';
+                $reference->save();
+            }
+        }
         return ['status'=>'success'];
 
     }

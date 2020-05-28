@@ -64,15 +64,21 @@ class PostController extends Controller
     }
     
     public function attachReference(Post $post, Request $request){
+        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator"])){
+            return abort(404);
+        }
+
         if($request->reference_id !==null){
-            $status = $post->references()->attach($request->reference_id);
-            if($status){
-                return ["status"=>"success"];
-            }
+            $post->references()->attach($request->reference_id);
+            return ["status"=>"success"];
         }
         return ["status"=>"failed"];
     }
     public function dettachReference(Post $post, Request $request){
+        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator"])){
+            return abort(404);
+        }
+        
         if($request->reference_id !==null){
             $status = $post->references()->detach($request->reference_id);
             if($status){

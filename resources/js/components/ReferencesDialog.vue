@@ -114,7 +114,7 @@ export default {
             this.getArticleReferences();
         },
         toggle(){
-            if(this.dialog && this.attached){
+            if(this.attached){
                 this.$emit('attached');
                 this.attached = false;
             }

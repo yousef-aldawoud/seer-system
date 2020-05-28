@@ -22,25 +22,41 @@
             <div class="black--text content">
                 <div v-html="post.content"></div>
             </div>
+            <references :edit='post.status === "draft" || post.status === "rejected" || userIsAdmin || userIsModerator' :table-view="false" :post_id='post.id'/>
       </v-card-text>
   </v-card>
 </v-container>
 </template>
 
 <script>
+const axios = require('axios');
 export default {
+    mounted(){
+        this.getReferences();
+    },
     props:{
         post:{required:true,type:Object},
         authorName:{required:true,type:String},
     },
     data(){
         return{
+            references:[],
             userIsAdmin:document.querySelector('meta[name="admin"]').getAttribute('content')==='1',
             userIsModerator:document.querySelector('meta[name="moderator"]').getAttribute('content')==='1',
         }
     },methods:{
         validatePost(){
             this.$refs.validation_dialog.toggle();
+        },getReferences(){
+            axios.get("/posts/"+this.post.id+"/references"+'?page='+this.page)
+            .then((response)=>{
+                this.references = response.data
+
+            }).catch(function(error){
+
+            }).then(function(){
+
+            });
         }
     }
 }

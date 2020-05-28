@@ -15,7 +15,7 @@ class PostValidateTest extends TestCase
      *
      * @return void
      */
-    public function testValidateSubmittedPost()
+    public function testValidateSubmittedPostReject()
     {
         $user = factory(User::class)->create();
         $user->assignRole("moderator");
@@ -27,7 +27,26 @@ class PostValidateTest extends TestCase
         ->json('POST', route("post-validate",$post->id), ["status"=>"rejected"]);
         $response->assertJson(["status"=>"success"]);
         $response->assertStatus(200);
+        $post = Post::find($post->id);
+        echo $post->status; 
+        $this->assertTrue($post->status === "rejected");
+    }
 
+    public function testValidateSubmittedPostAccept()
+    {
+        $user = factory(User::class)->create();
+        $user->assignRole("moderator");
+        $post = new Post;
+        $post->user_id = $user->id;
+        $post->status = "validation";
+        $post->save();
+        $response = $this->actingAs($user)
+        ->json('POST', route("post-validate",$post->id), ["status"=>"accepted"]);
+        $response->assertJson(["status"=>"success"]);
+        $response->assertStatus(200);
+        $post = Post::find($post->id);
+        echo $post->status; 
+        $this->assertTrue($post->status === "accepted");
     }
 
     public function testValidateDraftPost()

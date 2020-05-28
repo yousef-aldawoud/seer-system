@@ -17,6 +17,7 @@ class UserController extends Controller
 {
     public function __construct(){
         $this->middleware('guest')->only(['login','register','loginView']);
+        $this->middleware('auth')->only('logout');
     }
 
     public function register(RegisterUserRequest $request){
@@ -103,5 +104,10 @@ class UserController extends Controller
 
     public function loginView(){
         return view('login');
+    }
+
+    public function logout(){
+        auth()->logout();
+        return redirect("/");
     }
 }

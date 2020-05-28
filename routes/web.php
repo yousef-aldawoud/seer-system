@@ -58,3 +58,4 @@ Route::get('/login','UserController@loginView')->name("login");
 // })->name("test");
 
 Route::get('/admin', 'AdminController@dashboard');
+Route::post('/logout','UserController@logout');

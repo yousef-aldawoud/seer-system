@@ -47,9 +47,7 @@ Route::delete('/posts/{post}/',"PostController@delete")->name("post-delete");
 
 Route::get('/verify/{token}',"UserController@verify");
 
-Route::get('/search', function () {
-    return view('search-result');
-});
+Route::get('/search', 'PostController@search');
 
 Route::get('/login','UserController@loginView')->name("login");
 

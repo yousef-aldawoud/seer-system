@@ -5,6 +5,6 @@
 @section('vue-components')
 <v-app>
 <navbar :show-search-field="false"></navbar>
-<search-result></search-result>
+<search-result q="{{$searchQuery}}"></search-result>
 </v-app>
 @endSection()

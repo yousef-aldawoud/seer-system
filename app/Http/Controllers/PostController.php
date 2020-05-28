@@ -15,7 +15,7 @@ use Auth;
 class PostController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth')->except(["show"]);
+        $this->middleware('auth')->except(["show",'search','getPosts','getReferences']);
         $this->middleware('moderator')->only(['validatePost']);
     }
 
@@ -130,6 +130,13 @@ class PostController extends Controller
         }
 
         return view("post")->with(['post'=>$post]);
+    }
+
+    public function search(Request $request){
+        if (empty($request->q)){
+            return redirect('/');
+        }
+        return view('search-result')->with(['searchQuery'=>$request->q]);
     }
 
     public function validatePost(Post $post, PostValidationRequest $request){

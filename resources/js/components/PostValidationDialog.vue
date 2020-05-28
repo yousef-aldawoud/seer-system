@@ -52,11 +52,12 @@ export default {
             if(this.validateForm()){
                 let params = {};
                 params._token = this.csrf;
+                params.message = this.message;
                 params.status = this.accepted ? 'accepted':'rejected';
                 axios.post("/posts/"+this.post_id+"/validate",params).then((response)=>{
                     if(response.data.status==='success'){
                         this.toggle();
-                        window.location.href = '/admin/'
+                        // window.location.href = '/admin/'
                     }
                     this.errors = response.data.errors;
                 }).catch(function(error){

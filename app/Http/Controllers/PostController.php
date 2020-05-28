@@ -8,6 +8,8 @@ use App\Http\Requests\PostValidationRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Filters\PostFilter;
 use App\Post;
+use App\Notifications\PostValidationNotification;
+use App\PostValidationMessage;
 use Auth;
 
 class PostController extends Controller
@@ -131,11 +133,33 @@ class PostController extends Controller
     }
 
     public function validatePost(Post $post, PostValidationRequest $request){
-        if($post->status === 'rejected' || $post->status === 'draft'){
+        if($post->status === 'draft'){
             return ['status'=>'failed'];
         }
+
+        if($request->status === 'rejected'){
+            if(empty($request->message)){
+                return [
+                    'status'=>'failed',
+                    'errors'=>['message required']
+                ];
+            }
+        }
+
+        $postValidationMessage = null;
+        if(!empty($request->message)){
+            $postValidationMessage = new PostValidationMessage;
+            $postValidationMessage->user_id = auth()->id();
+            $postValidationMessage->message = $request->message;
+            $postValidationMessage->status = $request->status;
+            $postValidationMessage->post_id = $post->id;
+            $postValidationMessage->save();
+        }
+
+        
         $post->status = $request->status;
         $post->save();
+        $post->user()->first()->notify(new PostValidationNotification($post, $postValidationMessage));
         if($post->status === "accepted"){
             $references = $post->references()->get();
             foreach($references as $reference){

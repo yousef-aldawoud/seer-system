@@ -51,14 +51,10 @@ Route::get('/search', function () {
     return view('search-result');
 });
 
-Route::get('/login', function () {
-    return view('login');
-})->name("login");
+Route::get('/login','UserController@loginView')->name("login");
 
 // Route::get('/test', function () {
 //     return view('test');
 // })->name("test");
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
+Route::get('/admin', 'AdminController@dashboard');

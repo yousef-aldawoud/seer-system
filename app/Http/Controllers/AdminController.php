@@ -9,7 +9,8 @@ use App\User;
 class AdminController extends Controller
 {
     public function __construct(){
-        $this->middleware('admin');
+        $this->middleware('admin')->except('dashboard');
+        $this->middleware('moderator')->only('dashboard');
     }
 
     public function makeModerator(User $user){
@@ -30,5 +31,9 @@ class AdminController extends Controller
             return $user;
         });
         return $users;
+    }
+
+    public function dashboard(){
+        return view('admin.dashboard');
     }
 }

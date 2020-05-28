@@ -24,7 +24,7 @@ class PostValidateTest extends TestCase
         $post->status = "validation";
         $post->save();
         $response = $this->actingAs($user)
-        ->json('POST', route("post-validate",$post->id), ["status"=>"rejected"]);
+        ->json('POST', route("post-validate",$post->id), ["status"=>"rejected",'message'=>'this post is not good']);
         $response->assertJson(["status"=>"success"]);
         $response->assertStatus(200);
         $post = Post::find($post->id);

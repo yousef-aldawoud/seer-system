@@ -4,6 +4,10 @@
       <v-card-text>
           <h1 class="black--text">{{post.title}}</h1>
           <h4>By {{authorName}}</h4>
+            <div v-if="userIsAdmin || userIsModerator">
+              <v-btn small dark color="purple" @click="validatePost">Validate</v-btn>
+              <post-validation-dialog :post_id="post.id" ref="validation_dialog"></post-validation-dialog>
+            </div>
             <div class="p-2 text-white bg-red-400 rounded" v-if="post.status === 'draft'">
                 This article is a draft. It is not visible to anyone other than you.
             </div>
@@ -29,6 +33,16 @@ export default {
         post:{required:true,type:Object},
         authorName:{required:true,type:String},
     },
+    data(){
+        return{
+            userIsAdmin:document.querySelector('meta[name="admin"]').getAttribute('content')==='1',
+            userIsModerator:document.querySelector('meta[name="moderator"]').getAttribute('content')==='1',
+        }
+    },methods:{
+        validatePost(){
+            this.$refs.validation_dialog.toggle();
+        }
+    }
 }
 </script>
 

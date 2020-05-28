@@ -22,6 +22,7 @@ Vue.component('post-page', require('./components/PostPage.vue').default);
 Vue.component('references', require('./components/References.vue').default);
 Vue.component('reference-dialog', require('./components/ReferenceDialog.vue').default);
 Vue.component('references-dialog', require('./components/ReferencesDialog.vue').default);
+Vue.component('post-validation-dialog', require('./components/PostValidationDialog.vue').default);
 
 window.vuetify = vuetify
 const app = new Vue({

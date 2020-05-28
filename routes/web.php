@@ -25,6 +25,9 @@ Route::post('/references',"ReferenceController@create")->name('reference-create'
 Route::get('password-reset/{token}','UserController@showPasswordReset');
 Route::post('password-reset/{token}','UserController@resetPassword');
 
+Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
+Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
+
 Route::get('/users',"AdminController@getUsers");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");
 Route::post('/users/{user}/remove-moderator',"AdminController@removeModerator");

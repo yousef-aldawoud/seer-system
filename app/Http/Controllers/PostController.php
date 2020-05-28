@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\PostValidationRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Post;
+use Auth;
 
 class PostController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except(["show"]);
+        $this->middleware('moderator')->only(['validatePost']);
     }
 
 
@@ -88,7 +91,7 @@ class PostController extends Controller
     }
 
     public function submitForValidation(Post $post){
-        if($post->status !== "draft"){
+        if($post->status !== "draft" && $post->status !== "rejected"){
             return ["status"=>"faild"];
         }
         $post->status = "validation";
@@ -97,7 +100,37 @@ class PostController extends Controller
     }
 
     public function show(Post $post){
+        if($post->status === "accepted"){
+            return view("post")->with(['post'=>$post]);
+        }
+        if(!Auth::check()){
+            return abort(404);
+        }
+
+        if($post->user_id == auth()->user()->id){
+            return view("post")->with(['post'=>$post]);
+        }
+
+        if($post->status === 'draft'){
+            return abort(404);
+        }
+
+        $user = auth()->user();
+        if($post->status === 'validation' && !$user->hasRole(["moderator","admin"])){
+            return abort(404);
+        }
+
         return view("post")->with(['post'=>$post]);
+    }
+
+    public function validatePost(Post $post, PostValidationRequest $request){
+        if($post->status === 'rejected' || $post->status === 'draft'){
+            return ['status'=>'failed'];
+        }
+        $post->status = $request->status;
+        $post->save();
+        return ['status'=>'success'];
+
     }
 
 }

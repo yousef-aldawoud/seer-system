@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\PostValidationRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Filters\PostFilter;
 use App\Post;
 use Auth;
 
@@ -131,6 +132,30 @@ class PostController extends Controller
         $post->save();
         return ['status'=>'success'];
 
+    }
+
+    public function getPosts(PostFilter $filter){
+        $posts = Post::select('id','title','status','description','user_id','created_at','updated_at')
+        ->filter($filter)->where("status",'accepted');
+        
+        if(Auth::check()){
+            $posts->orWhere([
+                ['status','=','draft'],
+                ['user_id','=',auth()->user()->id],
+            ]);
+
+            if(auth()->user()->hasRole(['admin','moderator'])){
+                $posts->orWhere('status','=','rejected')->orWhere('status','=','validation'); 
+            }
+        }
+        $posts = $posts->paginate(10);
+        $posts->map(function($post){
+            $user=$post->user()->first();
+            $post['username'] = $user === null ?'noname':$user->name;
+        });
+        return  $posts;
+
+        
     }
 
 }

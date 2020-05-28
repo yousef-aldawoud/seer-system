@@ -25,6 +25,8 @@ Route::post('/references',"ReferenceController@create")->name('reference-create'
 Route::get('password-reset/{token}','UserController@showPasswordReset');
 Route::post('password-reset/{token}','UserController@resetPassword');
 
+Route::get('/api/posts',"PostController@getPosts");
+
 Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
 Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
 

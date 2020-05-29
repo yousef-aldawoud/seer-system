@@ -1,6 +1,7 @@
 <?php
 
-return [
+
+$configMail = [
 
     /*
     |--------------------------------------------------------------------------
@@ -107,3 +108,10 @@ return [
     ],
 
 ];
+
+
+if (env('APP_ENV') === 'testing') {
+    $configMail['driver']='log';
+}
+
+return $configMail;

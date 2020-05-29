@@ -15,6 +15,11 @@ use Auth;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware('guest')->only(['login','register','loginView']);
+        $this->middleware('auth')->only('logout');
+    }
+
     public function register(RegisterUserRequest $request){
         $user=User::create([
             'name' => $request->name,
@@ -45,8 +50,6 @@ class UserController extends Controller
         $activation->user_id = $user->id;
         $activation->save();
         $user->notify(new UserActivationNotification());
-
-
     }
    
     public function login(Request $request){
@@ -97,5 +100,14 @@ class UserController extends Controller
         $user->save();
         $passwordReset->delete();
         return redirect('/');
+    }
+
+    public function loginView(){
+        return view('login');
+    }
+
+    public function logout(){
+        auth()->logout();
+        return redirect("/");
     }
 }

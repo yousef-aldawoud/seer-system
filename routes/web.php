@@ -25,6 +25,11 @@ Route::post('/references',"ReferenceController@create")->name('reference-create'
 Route::get('password-reset/{token}','UserController@showPasswordReset');
 Route::post('password-reset/{token}','UserController@resetPassword');
 
+Route::get('/api/posts',"PostController@getPosts");
+
+Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
+Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
+
 Route::get('/users',"AdminController@getUsers");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");
 Route::post('/users/{user}/remove-moderator',"AdminController@removeModerator");
@@ -42,18 +47,13 @@ Route::delete('/posts/{post}/',"PostController@delete")->name("post-delete");
 
 Route::get('/verify/{token}',"UserController@verify");
 
-Route::get('/search', function () {
-    return view('search-result');
-});
+Route::get('/search', 'PostController@search');
 
-Route::get('/login', function () {
-    return view('login');
-})->name("login");
+Route::get('/login','UserController@loginView')->name("login");
 
 // Route::get('/test', function () {
 //     return view('test');
 // })->name("test");
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-});
+Route::get('/admin', 'AdminController@dashboard');
+Route::post('/logout','UserController@logout');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Filterable;
     public function references(){
         return $this->belongsToMany("App\Reference");
     }

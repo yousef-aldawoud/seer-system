@@ -32,6 +32,7 @@
                 @click:append="search"
                 v-on:keyup.enter="search"
                 v-if="showSearchField"
+                v-model="searchQuery"
                 append-icon="mdi-magnify"
                 dense 
                 single-line
@@ -40,6 +41,9 @@
             ></v-text-field>
             <v-spacer></v-spacer>
             </v-app-bar>
+            <form action="/logout" method="post" ref="logout_form">
+                <input type="hidden" name="_token" :value="csrf">
+            </form>
         </v-card>
     </div>
 </template>
@@ -52,6 +56,8 @@ export default {
     },
     data(){
         return{
+            searchQuery:"",
+            csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             authenticated:document.querySelector('meta[name="auth"]').getAttribute('content')==='1',
             loc:window.location.pathname,
             drawer:true,
@@ -69,8 +75,9 @@ export default {
         selectLink(link){
             window.location.href = link.link
         },logout(){
+            this.$refs.logout_form.submit();
         },search(){
-            window.location.href = "/search"
+            window.location.href = "/search?q="+this.searchQuery
         }
     },
     props:{
@@ -79,7 +86,6 @@ export default {
         if(this.authenticated){
             this.links = [
                 {title:"My posts",index:0,link:"/posts"},
-                {title:"Profile",index:1,link:"/profile"},
             ]
         }
     }

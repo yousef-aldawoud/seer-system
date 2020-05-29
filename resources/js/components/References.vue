@@ -4,10 +4,10 @@
       <references-dialog :post_id='post_id' :attached-refs="articleReferences" @attached="getArticleReferences" ref="refs_dialog"></references-dialog>
       <v-card>
           <v-card-text>
-              <v-btn color="green" @click="showCreateDialog" small dark>Create new reference</v-btn>
-              <v-btn color="blue" small @click="showReferences" dark>Add existing reference</v-btn>
+              <v-btn v-if="edit" color="green" @click="showCreateDialog" small dark>Create new reference</v-btn>
+              <v-btn v-if="edit" color="blue" small @click="showReferences" dark>Add existing reference</v-btn>
             <h2>Article references</h2>
-            <v-simple-table class="mt-3">
+            <v-simple-table class="mt-3" v-if="tableView">
                 <template v-slot:default>
                 <thead>
                     <tr>
@@ -32,6 +32,13 @@
                 </tbody>
                 </template>
             </v-simple-table>
+            <ul v-else>
+                <li v-for="reference in articleReferences" :key="reference.id">
+                    {{ reference.title }} - {{reference.author === null ? "":reference.author }}
+                    <a v-if="reference.link" :href="reference.link">Article link</a>
+                    <v-icon color="red" v-if="edit" @click="dettachFromArticle(reference)" >mdi-delete</v-icon>
+                </li>
+            </ul>
           </v-card-text>
       </v-card>
   </div>
@@ -40,7 +47,10 @@
 <script>
 const axios = require('axios');
 export default {
-    props:{post_id:{required:true}},
+    props:{
+        edit:{default:true},
+        tableView:{default:true},
+        post_id:{required:true}},
     data(){
         return{
             articleReferences:[],

@@ -15,4 +15,25 @@ class PostFilter extends Filter{
         ->orWhere("content","like","%$q%")
         ->orWhere("description","like","%$q%");
     }
+
+    public function title($order = 'desc'){
+        if($order === 'desc'){
+            return $this->builder->orderBy('title','desc');
+        }
+        return $this->builder->orderBy('title');
+    }
+
+    public function description($order = 'desc'){
+        if($order === 'desc'){
+            return $this->builder->orderBy('description','desc');
+        }
+        return $this->builder->orderBy('description');
+    }
+
+    public function date($order='desc'){
+        if($order === 'desc'){
+            return $this->builder->orderBy('created_at','desc');
+        }
+        return $this->builder->orderBy('created_at');
+    }
 }

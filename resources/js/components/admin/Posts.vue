@@ -2,7 +2,7 @@
 
   <div>
         <h1>Posts</h1>
-        <v-text-field label='Search' placeholder="DIO" class=" w-full lg:w-4/12 mt-4"></v-text-field>
+        <v-text-field @input="getPosts" v-model="searchQuery" label='Search' placeholder="EX how to become a software engineer in 1 day" class=" w-full lg:w-4/12 mt-4"></v-text-field>
         <v-simple-table>
                 <template v-slot:default>
                 <thead>
@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="cursor-pointer" @click="showPost" v-for="post in posts" :key="post.id">
+                    <tr class="cursor-pointer" v-for="post in posts" :key="post.id">
                         <td>{{ post.title }}</td>
                         <td>{{ post.created_at }}</td>
                         <td>{{ post.username }}</td>
@@ -25,7 +25,7 @@
                             <v-chip class="" small color="green" text-color="white" v-if="post.status==='accepted'">accepted</v-chip>
                         </td>
                         <td>
-                            <v-btn class="purple" dark small>Validate</v-btn>
+                            <v-btn class="purple" v-if="post.status !== 'rejected' " :href="'/posts/'+post.id" dark small>Validate</v-btn>
                         </td>
                     </tr>
                 </tbody>
@@ -33,7 +33,7 @@
             </v-simple-table>
             <v-pagination
                 class="mt-4"
-                @input="getUsers"
+                @input="getPosts"
                 color="yellow darken-3"
                 v-model="page"
                 :length="lastPage"
@@ -42,25 +42,32 @@
 </template>
 
 <script>
+const axios = require('axios');
 export default {
+    mounted(){
+        this.getPosts();
+    },
     data(){
         return{
+            searchQuery:'',
             page:1,
             lastPage:1,
-            posts:[
-                {id:1,title:"Python tutorial",created_at:"2020-02-20",status:"validation",username:"User 1"},
-                {id:2,title:"Java tutorial",created_at:"2020-02-20",status:"accepted",username:"John"},
-                {id:3,title:"Java tutorial",created_at:"2020-02-20",status:"rejected",username:"Smith"},
-            ]
+            posts:[]
         }
     },methods:{
-        getUsers(){
-
-        },
         requestDeletePost(){
 
-        },showPost(){
+        },
+        getPosts(){
+            axios.get('/api/posts?q='+this.searchQuery+'&page='+this.page).then((response)=>{
+                this.posts = response.data.data;
+                this.page = response.data.current_page;
+                this.lastPage = response.data.last_page;
+            }).catch(function(error){
 
+            }).then(function(){
+
+            });
         }
     }
 }

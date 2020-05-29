@@ -178,7 +178,7 @@ class PostController extends Controller
 
     }
 
-    public function getPosts(PostFilter $filter){
+    public function getPosts(PostFilter $filter,Request $request){
         $posts = Post::select('id','title','status','description','user_id','created_at','updated_at')
         ->filter($filter)->where("status",'accepted');
         
@@ -197,6 +197,10 @@ class PostController extends Controller
             $user=$post->user()->first();
             $post['username'] = $user === null ?'noname':$user->name;
         });
+        if(isset($request->desc)){
+            return $posts;
+        }
+        $posts->reverse();
         return  $posts;
 
         

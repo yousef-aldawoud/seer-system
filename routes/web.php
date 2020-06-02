@@ -38,6 +38,7 @@ Route::get('/posts/{post}/references',"PostController@getReferences");
 Route::post('/posts/{post}/refrences/attach',"PostController@attachReference");
 Route::post('/posts/{post}/refrences/dettach',"PostController@dettachReference");
 Route::get('/posts/{post}/edit',"PostController@edit")->name("post-edit");
+Route::get('/posts/{post}/reviews',"PostReviewController@reviews")->name("post-reviews");
 Route::post('/posts/{post}/review',"PostReviewController@create")->name("post-review-create");
 Route::post('/post-reviews/{review}/update',"PostReviewController@update")->name("post-review-update");
 Route::delete('/post/{review}/delete',"PostReviewController@delete")->name("post-review-delete");

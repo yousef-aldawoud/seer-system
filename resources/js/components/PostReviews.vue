@@ -21,6 +21,13 @@
           </p>
         </v-card-text>
       </v-card>
+          <v-pagination
+            class="mt-4"
+            @input="getReviews"
+            color="yellow darken-3"
+            v-model="page"
+            :length="lastPage"
+        />
     </div>
   </div>
 </template>
@@ -35,10 +42,9 @@ export default {
       authenticated:document.querySelector('meta[name="auth"]').getAttribute('content')==='1',
       csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       rating:0,
+      page:1,
+      lastPage:0,
       reviews:[
-        {id:1,username:"John",rating:4,comment:"It was a good article"},
-        {id:2,username:"Smith",rating:1,comment:"Poor writin article"},
-        {id:3,username:"Smith",rating:5,comment:null},
       ]
     }
   },methods:{
@@ -50,8 +56,7 @@ export default {
       axios.post("/posts/"+this.post_id+'/review',params)
             .then((response)=>{
                 if(response.data.status==='success'){
-                  this.$emit("created",response.data.reference);
-                  this.toggle();
+                  this.getReviews();
                   return;
                 }
                 this.errors = response.data.errors;
@@ -60,7 +65,22 @@ export default {
         }).then(()=>{
           
         });
+    },getReviews(){
+        axios.get("/posts/"+this.post_id+"/reviews"+'?page='+this.page)
+        .then((response)=>{
+            this.reviews = response.data.data;
+            this.page = response.data.current_page;
+            this.lastPage = response.data.last_page;
+            
+        }).catch(function(error){
+
+        }).then(function(){
+
+        });
     }
+  },
+  mounted(){
+    this.getReviews();
   }
 }
 </script>

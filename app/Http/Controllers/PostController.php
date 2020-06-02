@@ -195,15 +195,11 @@ class PostController extends Controller
         $posts = $posts->paginate(10);
         $posts->map(function($post){
             $user=$post->user()->first();
+            $post['rating']=$post->reviews()->avg('rating');
             $post['username'] = $user === null ?'noname':$user->name;
         });
-        if(isset($request->desc)){
-            return $posts;
-        }
-        $posts->reverse();
-        return  $posts;
-
         
+        return  $posts;
     }
 
 }

@@ -14,7 +14,7 @@ class PostReviewController extends Controller
         $this->middleware('auth')->except('reviews');
     }
 
-    public function create(Post $post, Request $request){
+    public function create(Post $post, PostReviewRequest $request){
         if(PostReview::where([['user_id',auth()->id()],['post_id',$post->id]])->count()>=1){
             return ['status'=>'failed','errors'=>['duplicate reviews']];
         }
@@ -35,5 +35,20 @@ class PostReviewController extends Controller
             $review['username'] = $user === null ?'noname':$user->name;
         });
         return $reviews;
+    }
+
+    public function update(PostReview $review, PostReviewRequest $request){
+        if($review->user_id == auth()->id()){
+            $review->comment = $request->comment;
+            $review->rating = $request->rating;
+            $review->save();
+            return ['status'=>'success'];
+        }
+        return ['status'=>'failed'];
+    }
+
+    public function getUserReview(Post $post){
+        $review = $post->reviews()->where("user_id",auth()->id())->first();
+        return $review ?? null;
     }
 }

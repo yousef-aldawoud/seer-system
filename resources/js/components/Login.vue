@@ -22,7 +22,7 @@
                             label="Password"
                             @click:append="showLoginPassword = !showLoginPassword"
                         ></v-text-field>
-                        <v-btn :disabled="!validateLoginFields()" type="submit" class="blue text-white" block>Login</v-btn>
+                        <v-btn :disabled="!validateLoginFields()" type="submit" class="blue white--text" block>Login</v-btn>
                         <slot name="login-status" />
                     </form>
                     <form action="register" method="POST"  class="w-full md:w-1/2 p-4">
@@ -56,7 +56,7 @@
                         ></v-text-field>
 
                         <slot/>
-                        <v-btn :disabled="!validateSignUpFields()" type="submit" class="blue text-white" block>Sign up</v-btn>
+                        <v-btn dark :disabled="!validateSignUpFields()" type="submit" class="blue white--text" block>Sign up</v-btn>
                     </form>
                 </v-card-text>
             </v-card>

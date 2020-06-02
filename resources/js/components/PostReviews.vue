@@ -7,8 +7,8 @@
           <v-icon v-for="i in 5" :key="i" :color="rating >= i ? 'blue':'grey'" @click="rating = i">mdi-star</v-icon>
       </div>
       <v-btn v-else color="green" dark small href="/login">Login to write a review</v-btn>
-      <v-text-field label="Review" placeholder="What do you think about the article"></v-text-field>
-      <v-btn color="purple" dark>Submit review</v-btn>
+      <v-text-field v-model="comment" label="Review" placeholder="What do you think about the article"></v-text-field>
+      <v-btn color="purple" @click="submitReview" dark>Submit review</v-btn>
       <v-card v-for="review in reviews " :key="review.id" class="m-2">
         <v-card-text>
 
@@ -26,16 +26,40 @@
 </template>
 
 <script>
+const axios = require('axios');
 export default {
+  props:{post_id:{required:true}},
   data(){
     return{
+      comment:'',
       authenticated:document.querySelector('meta[name="auth"]').getAttribute('content')==='1',
+      csrf:document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       rating:0,
       reviews:[
         {id:1,username:"John",rating:4,comment:"It was a good article"},
         {id:2,username:"Smith",rating:1,comment:"Poor writin article"},
         {id:3,username:"Smith",rating:5,comment:null},
       ]
+    }
+  },methods:{
+    submitReview(){
+      let params = {};
+      params._token = this.csrf;
+      params.rating = this.rating;
+      params.comment = this.comment;
+      axios.post("/posts/"+this.post_id+'/review',params)
+            .then((response)=>{
+                if(response.data.status==='success'){
+                  this.$emit("created",response.data.reference);
+                  this.toggle();
+                  return;
+                }
+                this.errors = response.data.errors;
+        }).catch(function(error){
+
+        }).then(()=>{
+          
+        });
     }
   }
 }

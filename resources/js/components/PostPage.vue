@@ -23,7 +23,7 @@
                 <div v-html="post.content"></div>
             </div>
             <references :edit='post.status === "draft" || post.status === "rejected" || userIsAdmin || userIsModerator' :table-view="false" :post_id='post.id'/>
-            <post-reviews class="mt-4" v-if="post.status==='accepted'">
+            <post-reviews :post_id='post.id' class="mt-4" v-if="post.status==='accepted'">
 
             </post-reviews>
       </v-card-text>

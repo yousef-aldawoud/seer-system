@@ -2,6 +2,7 @@
 namespace App\Filters;
 
 use App\Filters\Filter;
+use DB;
 
 class PostFilter extends Filter{
     
@@ -35,5 +36,12 @@ class PostFilter extends Filter{
             return $this->builder->orderBy('created_at','desc');
         }
         return $this->builder->orderBy('created_at');
+    }
+
+    public function read_time($order='desc'){
+        if($order === 'desc'){
+            return $this->builder->orderBy('read_time','desc');
+        }
+        return $this->builder->orderBy('read_time');
     }
 }

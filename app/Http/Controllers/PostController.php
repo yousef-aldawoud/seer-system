@@ -7,10 +7,12 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\PostValidationRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Filters\PostFilter;
+use App\Filters\ReferenceFilter;
 use App\Post;
 use App\Notifications\PostValidationNotification;
 use App\PostValidationMessage;
 use Auth;
+use App\Reference;
 
 class PostController extends Controller
 {
@@ -41,6 +43,8 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->description = $request->description;
         $post->content = $request->content;
+        $read_time = sizeof(explode(" ",$request->content))/250;
+        $post->read_time = intval($read_time);
         $post->save();
         return ["status"=>"success"];
     }
@@ -178,11 +182,14 @@ class PostController extends Controller
 
     }
 
-    public function getPosts(PostFilter $filter,Request $request){
-        $posts = Post::select('id','title','status','description','user_id','created_at','updated_at')
-        ->filter($filter)->where("status",'accepted');
+    public function getPosts(Request $request){
+        $postFilter = new PostFilter($request);
+        $referenceFilter = new ReferenceFilter($request);
+        $references = Reference::filter($referenceFilter)->where('status','accepted')->get();
+        $posts = Post::select('id','title','status','description','user_id','created_at','updated_at','read_time')
+        ->filter($postFilter)->where("status",'accepted');
         
-        if(Auth::check()){
+        if(Auth::check() && !$request->has("main")){;
             $posts->orWhere([
                 ['status','=','draft'],
                 ['user_id','=',auth()->user()->id],
@@ -193,6 +200,14 @@ class PostController extends Controller
             }
         }
         $posts = $posts->paginate(10);
+        foreach($references as $reference){
+            foreach($reference->posts()->where('status','accepted')->get() as $refPost){
+                if($posts->where('id',$refPost->id)->count()>=1){
+                    continue;
+                }
+                $posts->push($refPost);
+            }
+        }
         $posts->map(function($post){
             $user=$post->user()->first();
             $post['rating']=$post->reviews()->avg('rating');

@@ -14,7 +14,18 @@ class AdminController extends Controller
     }
 
     public function makeModerator(User $user){
+        if($user->hasRole('moderator')){
+            return ['status'=>'failed','error'=>['Already moderator']];
+        }
         $user->assignRole("moderator");
+        return ["status"=>"success"];
+    }
+
+    public function makeAnalyst(User $user){
+        if($user->hasRole('analyst')){
+            return ['status'=>'failed','error'=>['Already analyst']];
+        }
+        $user->assignRole("analyst");
         return ["status"=>"success"];
     }
 

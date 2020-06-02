@@ -25,6 +25,8 @@
                                     <th class="text-left">Title</th>
                                     <th class="text-left">Description</th>
                                     <th class="text-left">Writer name</th>
+                                    <th class="text-left">Rating</th>
+                                    <th class="text-left">Read time</th>
                                     <th class="text-left">date</th>
                                     <th class="text-left">#</th>
                                 </tr>
@@ -34,6 +36,8 @@
                                     <td>{{ result.title }}</td>
                                     <td>{{ result.description }}</td>
                                     <td>{{ result.username }}</td>
+                                    <td>{{ result.rating ? result.rating:'no reviews' }}</td>
+                                    <td>{{ result.read_time }} minutes</td>
                                     <td>{{ result.created_at }}</td>
                                     <td>
                                         <a :href="'/posts/'+result.id">View</a>
@@ -53,10 +57,10 @@
                         </div>
                         <div class="flex mt-5">
                             <div class="w-1/3">
-                                <span class="text-lg aligin"><span class="mt-4">4.2</span> <v-icon class="" color="purple">{{starIcon}}</v-icon></span>
+                                <span class="text-lg aligin"><span class="mt-4">{{result.rating}}</span> <v-icon class="" color="purple">{{starIcon}}</v-icon></span>
                             </div>
                             <div class="w-1/3">
-                                <span class="text-lg aligin"><span class="mt-4">45</span> <v-icon class="" color="blue">{{textIcon}}</v-icon></span>
+                                <span class="text-lg aligin"><span class="mt-4">{{result.read_time}} minutes</span> <v-icon class="" color="blue">{{timeIcon}}</v-icon></span>
                             </div>
                         </div>
                     </v-card-text>
@@ -85,7 +89,7 @@ export default {
             sortBy:"date",
             sortType:"desc",
             sortingTypes:['desc','asc'],
-            columns:['title','description','date'],
+            columns:['title','description','date','read_time'],
             page:1,
             lastPage:1,
             searchQuery:this.q,
@@ -98,7 +102,7 @@ export default {
         }
     },methods:{
         getPosts(){
-        axios.get('/api/posts?q='+this.searchQuery+'&page='+this.page+"&"+this.sortBy+'='+this.sortType).then((response)=>{
+        axios.get('/api/posts?main&q='+this.searchQuery+'&page='+this.page+"&"+this.sortBy+'='+this.sortType).then((response)=>{
             this.results = response.data.data;
             this.page = response.data.current_page;
             this.lastPage = response.data.last_page;

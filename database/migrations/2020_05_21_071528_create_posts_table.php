@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string("user_id");
             $table->enum("status",["draft","validation","accepted","rejected"])->default("draft");
             $table->string("title")->default("");
+            $table->integer("read_time")->default(5);
             $table->string("description")->default("");
             $table->mediumText("content")->nullable();
             $table->timestamps();

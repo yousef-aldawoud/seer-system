@@ -44,7 +44,7 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->content = $request->content;
         $read_time = sizeof(explode(" ",$request->content))/250;
-        $post->read_time = intval($read_time);
+        $post->read_time = intval($read_time)<=0?1:intval($read_time);
         $post->save();
         return ["status"=>"success"];
     }

@@ -105,32 +105,32 @@ class PostReviewTest extends TestCase
         $post->delete();
     }
 
-    public function testDeleteReview()
-    {
+    // public function testDeleteReview()
+    // {
 
-        $user = factory(User::class)->create();
-        $reviewer = factory(User::class)->create();
-        $postInfo=[
-            'title' => 'Post title 1',
-            "description"=>"Post description test",
-            "content"=>"Post description content",
-        ];
-        $postReviewInfo = [
-            'rating'=>4,
-            'comment'=>'Great post',
-        ];
-        $post = new Post;
-        $post->user_id = $user->id;
-        $post->update($postInfo);
-        $post->save();
-        $postReviewInfo['user_id']=$reviewer->id;
-        $review = $post->reviews()->create($postReviewInfo);
-        $route = route("post-review-delete",$post->id);
-        $response = $this->actingAs($user)
-        ->json('DELETE', $route);
-        $this->assertDeleted("post_reviews",["id"=>$review->id]);
-        $response->assertJson(["status"=>"success"]);
+    //     $user = factory(User::class)->create();
+    //     $reviewer = factory(User::class)->create();
+    //     $postInfo=[
+    //         'title' => 'Post title 1',
+    //         "description"=>"Post description test",
+    //         "content"=>"Post description content",
+    //     ];
+    //     $postReviewInfo = [
+    //         'rating'=>4,
+    //         'comment'=>'Great post',
+    //     ];
+    //     $post = new Post;
+    //     $post->user_id = $user->id;
+    //     $post->update($postInfo);
+    //     $post->save();
+    //     $postReviewInfo['user_id']=$reviewer->id;
+    //     $review = $post->reviews()->create($postReviewInfo);
+    //     $route = route("post-review-delete",$post->id);
+    //     $response = $this->actingAs($user)
+    //     ->json('DELETE', $route);
+    //     $this->assertDeleted("post_reviews",["id"=>$review->id]);
+    //     $response->assertJson(["status"=>"success"]);
 
-    }
+    // }
 
 }

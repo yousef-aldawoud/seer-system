@@ -41,7 +41,7 @@
 export default {
     data(){
         return{
-            admin:true,
+            admin:document.querySelector('meta[name="admin"]').getAttribute('content')==='1',
             drawer:true,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 
             currentSection:0,

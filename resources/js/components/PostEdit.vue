@@ -20,7 +20,7 @@
         <ckeditor :editor="editor" v-model="postInfo.content"></ckeditor>
         <div>
             <v-btn @click="savePost" small color="green" :loading="saveLoading" dark>save</v-btn>
-            <v-btn small color="purple" dark>Submit for evaluation</v-btn>
+            <v-btn @click="submitForValidation" small color="purple" dark>Submit for evaluation</v-btn>
         </div>
         <references :post_id="post.id" />
         <v-snackbar
@@ -68,6 +68,7 @@ export default {
     },methods:{
 
         submitForValidation(){
+            this.savePost();
             axios.post("/posts/"+this.postInfo.id+"/validation",{_token:this.csrf})
             .then((response)=>{
                 if(response.data.status==='success'){

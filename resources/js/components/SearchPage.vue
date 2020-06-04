@@ -13,17 +13,8 @@
           <v-col class="md:mx-40">
             <form class="flex" method="GET" action="/search">
                 <input type="text" name="q" placeholder="search" class="search-input grey lighten-2 pa-2 md:w-11/12 w-10/12" id="">
-                <button type="submit" @click="search" class="search-button pa-2 md:w-1/12  w-2/12 green"><v-icon color="white">{{searchIcon}}</v-icon></button>
+                <button type="submit" class="search-button pa-2 md:w-1/12  w-2/12 green"><v-icon color="white">{{searchIcon}}</v-icon></button>
             </form>
-                <v-btn  color="blue darken-4 m-0" small dark @click="toggleOptions">{{showOptions ? "Less options":"More options"}}</v-btn>
-                <div v-if="showOptions" class="flex flex-wrap">
-                  <div  class="md:w-1/4 w-1/2 pa-1">
-                    <v-select dense v-model="sortType" placeholder="Sort by" title="Sort by" :items="sortBy"></v-select>
-                  </div>
-                  <div  class="md:w-1/4 w-1/2 pa-1">
-                    <v-select dense v-model="timeType" placeholder="Time" :items="timeRange"></v-select>
-                  </div>
-                </div>
           </v-col>
         </v-row>
       </v-container>

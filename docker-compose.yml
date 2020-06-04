@@ -38,6 +38,9 @@ services:
     networks:
       - laravel
   php:
+    environment: 
+      - PUID=1000
+      - PGID=1000
     build: 
       context: .
       dockerfile: Dockerfile

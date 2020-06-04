@@ -17,7 +17,7 @@
                 <tr v-for="user in users" :key="user.id">
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.active ? 'active':'non-active' }}</td>
+                    <td>{{ user.verified ? 'active':'non-active' }}</td>
                     <td>{{ user.created_at }}</td>
                     <td>
                         <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>

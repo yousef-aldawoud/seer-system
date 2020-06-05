@@ -41,7 +41,7 @@ class UserPasswordResetNotification extends Notification
     public function toMail($user)
     {
         return (new MailMessage)
-            ->subject('Email verification')
+            ->subject('Passsword reset')
             ->from('person.right.right@gmail.com')
             ->view('emails.password-reset',['user'=>$user,'passwordReset'=>$user->passwordResets()->first()]);
     }

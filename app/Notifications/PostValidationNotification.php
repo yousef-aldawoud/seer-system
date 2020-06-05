@@ -44,7 +44,7 @@ class PostValidationNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Email verification')
+        ->subject('Post validation '.$this->post->title)
         ->from('person.right.right@gmail.com')
         ->view('emails.post-validation',['user'=>$notifiable,'post'=>$this->post, 'postMessage'=>$this->message]);
     }

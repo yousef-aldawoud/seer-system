@@ -34,11 +34,17 @@ class AdminController extends Controller
         return ["status"=>"success"];
     }
 
+    public function removeAnalyst(User $user){
+        $user->removeRole("analyst");
+        return ["status"=>"success"];
+    }
+
     public function getUsers(UserFilter $filter){
         $users = User::filter($filter)->paginate(10);
         $users->map(function($user) use ($users){
             $user['admin'] = $user->hasRole("admin");
             $user['moderator'] = $user->hasRole("moderator");
+            $user['analyst'] = $user->hasRole("analyst");
             return $user;
         });
         return $users;

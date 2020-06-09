@@ -32,7 +32,9 @@ Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-v
 
 Route::get('/users',"AdminController@getUsers");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");
+Route::post('/users/{user}/make-analyst',"AdminController@makeAnalyst");
 Route::post('/users/{user}/remove-moderator',"AdminController@removeModerator");
+Route::post('/users/{user}/remove-analyst',"AdminController@removeAnalyst");
 Route::get('/references',"ReferenceController@get");
 Route::get('/posts/{post}/references',"PostController@getReferences");
 Route::post('/posts/{post}/refrences/attach',"PostController@attachReference");

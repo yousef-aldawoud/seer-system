@@ -43,7 +43,7 @@ Route::get('/posts/{post}/reviews',"PostReviewController@reviews")->name("post-r
 Route::get('/posts/{post}/user-review',"PostReviewController@getUserReview")->name("user-post-review");
 Route::post('/posts/{post}/review',"PostReviewController@create")->name("post-review-create");
 Route::post('/post-reviews/{review}/update',"PostReviewController@update")->name("post-review-update");
-Route::delete('/post/{review}/delete',"PostReviewController@delete")->name("post-review-delete");
+Route::delete('/post-reviews/{review}/delete',"PostReviewController@delete")->name("post-review-delete");
 Route::get('/posts/{post}/',"PostController@show")->name("post-page");
 Route::post('/posts/{post}/update',"PostController@update")->name("post-update");
 Route::post('/posts/{post}/validation',"PostController@submitForValidation")->name("post-validation");

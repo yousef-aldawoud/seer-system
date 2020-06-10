@@ -4,7 +4,7 @@
       <v-card-text>
           <h1 class="black--text">{{post.title}}</h1>
           <h4>By {{authorName}}</h4>
-            <div v-if="userIsAdmin || userIsModerator">
+            <div v-if="userIsAdmin || userIsModerator || userIsAnalyst">
               <v-btn small dark color="purple" @click="validatePost">Validate</v-btn>
               <post-validation-dialog :post_id="post.id" ref="validation_dialog"></post-validation-dialog>
             </div>
@@ -22,7 +22,7 @@
             <div class="black--text content">
                 <div v-html="post.content"></div>
             </div>
-            <references :edit='post.status === "draft" || post.status === "rejected" || userIsAdmin || userIsModerator' :table-view="false" :post_id='post.id'/>
+            <references :edit='post.status === "draft" || post.status === "rejected" || userIsAdmin || userIsModerator || userIsAnalyst' :table-view="false" :post_id='post.id'/>
             <post-reviews :user-review='postReview' :post_id='post.id' class="mt-4" v-if="post.status==='accepted'">
 
             </post-reviews>
@@ -45,6 +45,7 @@ export default {
     data(){
         return{
             references:[],
+            userIsAnalyst:document.querySelector('meta[name="analyst"]').getAttribute('content')==='1',
             userIsAdmin:document.querySelector('meta[name="admin"]').getAttribute('content')==='1',
             userIsModerator:document.querySelector('meta[name="moderator"]').getAttribute('content')==='1',
         }

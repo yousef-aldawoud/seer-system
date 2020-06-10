@@ -11,6 +11,7 @@
         @if(Auth::check())
             <meta name="admin" content='{{ Auth::user()->hasRole("admin") ? "1" : "0" }}'>
             <meta name="moderator" content='{{ Auth::user()->hasRole("moderator") ? "1" : "0" }}'>
+            <meta name="analyst" content='{{ Auth::user()->hasRole("analyst") ? "1" : "0" }}'>
         @else
             <meta name="admin" content='0'>
             <meta name="moderator" content='0'>

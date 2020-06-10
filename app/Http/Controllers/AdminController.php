@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function __construct(){
         $this->middleware('admin')->except('dashboard');
-        $this->middleware('moderator')->only('dashboard');
+        $this->middleware('moderatorAndAnalyst')->only('dashboard');
     }
 
     public function makeModerator(User $user){

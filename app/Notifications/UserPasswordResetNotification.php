@@ -42,7 +42,7 @@ class UserPasswordResetNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Passsword reset')
-            ->from('person.right.right@gmail.com')
+            ->from(env('MAIL_USERNAME'))
             ->view('emails.password-reset',['user'=>$user,'passwordReset'=>$user->passwordResets()->first()]);
     }
 

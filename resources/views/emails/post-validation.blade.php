@@ -8,7 +8,11 @@
 <body>
     <p>Hello, {{ $user->name }},</p>
     <p>We have reviewed your article {{$post->title}} </p>
-    <p>Your article has been {{$post->status}}</p>
+    @if($post->status == 'analysis')
+        <p>Your article is being analysed</p>
+    @else
+        <p>Your article has been {{$post->status}}</p>
+    @endif
     @if($postMessage !==null)
     <h3>Comments</h3>
     <p>

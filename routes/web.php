@@ -28,7 +28,6 @@ Route::post('password-reset/{token}','UserController@resetPassword');
 Route::get('/api/posts',"PostController@getPosts");
 
 Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
-Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
 
 Route::get('/users',"AdminController@getUsers");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");

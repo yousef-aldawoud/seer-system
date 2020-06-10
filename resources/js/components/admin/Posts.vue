@@ -23,6 +23,7 @@
                             <v-chip class="" small color="blue" text-color="white" v-if="post.status==='validation'">Pending</v-chip>
                             <v-chip class="" small color="red" text-color="white" v-if="post.status==='rejected'">rejected</v-chip>
                             <v-chip class="" small color="green" text-color="white" v-if="post.status==='accepted'">accepted</v-chip>
+                            <v-chip class="" small color="yellow darken-2" text-color="white" v-if="post.status==='analysis'">accepted</v-chip>
                         </td>
                         <td>
                             <v-btn class="purple" v-if="post.status !== 'rejected' " :href="'/posts/'+post.id" dark small>Validate</v-btn>

@@ -26,7 +26,7 @@ class PostValidationRequest extends FormRequest
     public function rules()
     {
         return [
-            "status"=>['required',Rule::in(['accepted', 'rejected']),]
+            "status"=>['required',Rule::in(['accepted', 'rejected','analysis']),]
         ];
     }
 }

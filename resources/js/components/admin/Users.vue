@@ -21,8 +21,8 @@
                     <td>{{ user.created_at }}</td>
                     <td>
                         <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>
-                        <v-btn v-if="user.disabled" small dark class="green">Enable</v-btn>
-                        <v-btn v-else-if=" !user.admin" small class="red" dark>Disable</v-btn>
+                        <v-btn v-if="user.disabled" @click="enableUser(user)" small dark class="green">Enable</v-btn>
+                        <v-btn v-else-if=" !user.admin" small class="red" @click="disableUser(user)" dark>Disable</v-btn>
                         <v-btn v-if="user.moderator" @click="removeModerator(user)" x-small dark>Remove moderator</v-btn>
                         <v-btn v-else @click="makeModerator(user)" x-small dark>Make moderator</v-btn>
                         <v-btn v-if="user.analyst" @click="removeAnalyst(user)" x-small dark>Remove analyst</v-btn>
@@ -107,6 +107,28 @@ export default {
             });
         },removeAnalyst(user){
             axios.post("/users/"+user.id+"/remove-analyst")
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.getUsers();
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+            
+            });
+        },enableUser(user){
+            axios.post("/users/"+user.id+"/enable")
+            .then((response)=>{
+                if(response.data.status==='success'){
+                    this.getUsers();
+                }
+            }).catch(function(error){
+                
+            }).then(()=>{
+            
+            });
+        },disableUser(user){
+            axios.post("/users/"+user.id+"/disable")
             .then((response)=>{
                 if(response.data.status==='success'){
                     this.getUsers();

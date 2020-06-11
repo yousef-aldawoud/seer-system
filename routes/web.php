@@ -30,6 +30,8 @@ Route::get('/api/posts',"PostController@getPosts");
 Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
 
 Route::get('/users',"AdminController@getUsers");
+Route::post('/users/{user}/disable',"AdminController@disableUser");
+Route::post('/users/{user}/enable',"AdminController@enableUser");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");
 Route::post('/users/{user}/make-analyst',"AdminController@makeAnalyst");
 Route::post('/users/{user}/remove-moderator',"AdminController@removeModerator");

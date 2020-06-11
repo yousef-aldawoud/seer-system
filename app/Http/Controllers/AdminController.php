@@ -53,4 +53,22 @@ class AdminController extends Controller
     public function dashboard(){
         return view('admin.dashboard');
     }
+
+    public function disableUser(User $user){
+        if($user->disabled || $user->hasRole('admin')){
+            return ['status'=>'failed'];
+        }
+        $user->disabled = true;
+        $user->save();
+        return ['status'=>'success'];
+    }
+
+    public function enableUser(User $user){
+        if(!$user->disabled || $user->hasRole('admin')){
+            return ['status'=>'failed'];
+        }
+        $user->disabled = false;
+        $user->save();
+        return ['status'=>'success'];
+    }
 }

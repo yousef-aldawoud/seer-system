@@ -20,7 +20,6 @@
                     <td>{{ user.verified ? 'active':'non-active' }}</td>
                     <td>{{ user.created_at }}</td>
                     <td>
-                        <v-icon v-if="!user.admin" color="red" @click="requestDeleteUser()">mdi-delete</v-icon>
                         <v-btn v-if="user.disabled" @click="enableUser(user)" small dark class="green">Enable</v-btn>
                         <v-btn v-else-if=" !user.admin" small class="red" @click="disableUser(user)" dark>Disable</v-btn>
                         <v-btn v-if="user.moderator" @click="removeModerator(user)" x-small dark>Remove moderator</v-btn>
@@ -58,9 +57,7 @@ export default {
             searchQuery:"",
         }
     },methods:{
-        requestDeleteUser(user){
-
-        },getUsers(){
+        getUsers(){
             axios.get("/users/"+'?page='+this.page+"&q="+this.searchQuery)
             .then((response)=>{
                 this.users = response.data.data;

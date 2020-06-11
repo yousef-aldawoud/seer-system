@@ -78,6 +78,8 @@ export default {
             this.$refs.logout_form.submit();
         },search(){
             window.location.href = "/search?q="+this.searchQuery
+        },toggleDrawer(){
+            this.drawer = !this.drawer;
         }
     },
     props:{
@@ -87,6 +89,10 @@ export default {
             this.links = [
                 {title:"My posts",index:0,link:"/posts"},
             ]
+        }
+    },created(){
+        if( screen.width < 1080){
+            this.drawer = false;    
         }
     }
 }

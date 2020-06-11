@@ -28,11 +28,14 @@ Route::post('password-reset/{token}','UserController@resetPassword');
 Route::get('/api/posts',"PostController@getPosts");
 
 Route::post("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
-Route::get("/posts/{post}/validate","PostController@validatePost")->name('post-validate');
 
 Route::get('/users',"AdminController@getUsers");
+Route::post('/users/{user}/disable',"AdminController@disableUser");
+Route::post('/users/{user}/enable',"AdminController@enableUser");
 Route::post('/users/{user}/make-moderator',"AdminController@makeModerator");
+Route::post('/users/{user}/make-analyst',"AdminController@makeAnalyst");
 Route::post('/users/{user}/remove-moderator',"AdminController@removeModerator");
+Route::post('/users/{user}/remove-analyst',"AdminController@removeAnalyst");
 Route::get('/references',"ReferenceController@get");
 Route::get('/posts/{post}/references',"PostController@getReferences");
 Route::post('/posts/{post}/refrences/attach',"PostController@attachReference");
@@ -42,7 +45,7 @@ Route::get('/posts/{post}/reviews',"PostReviewController@reviews")->name("post-r
 Route::get('/posts/{post}/user-review',"PostReviewController@getUserReview")->name("user-post-review");
 Route::post('/posts/{post}/review',"PostReviewController@create")->name("post-review-create");
 Route::post('/post-reviews/{review}/update',"PostReviewController@update")->name("post-review-update");
-Route::delete('/post/{review}/delete',"PostReviewController@delete")->name("post-review-delete");
+Route::delete('/post-reviews/{review}/delete',"PostReviewController@delete")->name("post-review-delete");
 Route::get('/posts/{post}/',"PostController@show")->name("post-page");
 Route::post('/posts/{post}/update',"PostController@update")->name("post-update");
 Route::post('/posts/{post}/validation',"PostController@submitForValidation")->name("post-validation");

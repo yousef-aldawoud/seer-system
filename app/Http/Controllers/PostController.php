@@ -18,7 +18,7 @@ class PostController extends Controller
 {
     public function __construct(){
         $this->middleware('auth')->except(["show",'search','getPosts','getReferences']);
-        $this->middleware('moderator')->only(['validatePost']);
+        $this->middleware('moderatorAndAnalyst')->only(['validatePost']);
     }
 
 
@@ -44,7 +44,7 @@ class PostController extends Controller
         $post->description = $request->description;
         $post->content = $request->content;
         $read_time = sizeof(explode(" ",$request->content))/250;
-        $post->read_time = intval($read_time);
+        $post->read_time = intval($read_time)<=0?1:intval($read_time);
         $post->save();
         return ["status"=>"success"];
     }
@@ -70,7 +70,7 @@ class PostController extends Controller
     }
     
     public function attachReference(Post $post, Request $request){
-        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator"])){
+        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator","analyst"])){
             return abort(404);
         }
 
@@ -81,7 +81,7 @@ class PostController extends Controller
         return ["status"=>"failed"];
     }
     public function dettachReference(Post $post, Request $request){
-        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator"])){
+        if(auth()->user()->id != $post->user_id && !auth()->user()->hasRole(["admin","moderator","analyst"])){
             return abort(404);
         }
         
@@ -130,6 +130,10 @@ class PostController extends Controller
 
         $user = auth()->user();
         if($post->status === 'validation' && !$user->hasRole(["moderator","admin"])){
+            return abort(404);
+        }
+
+        if($post->status === 'analysis' && !$user->hasRole(["admin","analyst","moderator"])){
             return abort(404);
         }
 
@@ -196,7 +200,11 @@ class PostController extends Controller
             ]);
 
             if(auth()->user()->hasRole(['admin','moderator'])){
-                $posts->orWhere('status','=','rejected')->orWhere('status','=','validation'); 
+                $posts->orWhere('status','=','rejected')->orWhere('status','=','validation')->orWhere('status','=','analysis'); 
+            }
+
+            if(auth()->user()->hasRole(['admin','analyst'])){
+                $posts->orWhere('status','=','analysis');
             }
         }
         $posts = $posts->paginate(10);

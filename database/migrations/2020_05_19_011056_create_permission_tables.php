@@ -87,6 +87,7 @@ class CreatePermissionTables extends Migration
             [
                 ['name'=>'admin',"guard_name"=>'web'],
                 ['name'=>'moderator',"guard_name"=>'web'],
+                ['name'=>'analyst',"guard_name"=>'web'],
                 ['name'=>'normal-user',"guard_name"=>'web']
             ]
         );

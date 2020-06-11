@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function __construct(){
         $this->middleware('admin')->except('dashboard');
-        $this->middleware('moderator')->only('dashboard');
+        $this->middleware('moderatorAndAnalyst')->only('dashboard');
     }
 
     public function makeModerator(User $user){
@@ -34,11 +34,17 @@ class AdminController extends Controller
         return ["status"=>"success"];
     }
 
+    public function removeAnalyst(User $user){
+        $user->removeRole("analyst");
+        return ["status"=>"success"];
+    }
+
     public function getUsers(UserFilter $filter){
         $users = User::filter($filter)->paginate(10);
         $users->map(function($user) use ($users){
             $user['admin'] = $user->hasRole("admin");
             $user['moderator'] = $user->hasRole("moderator");
+            $user['analyst'] = $user->hasRole("analyst");
             return $user;
         });
         return $users;
@@ -46,5 +52,23 @@ class AdminController extends Controller
 
     public function dashboard(){
         return view('admin.dashboard');
+    }
+
+    public function disableUser(User $user){
+        if($user->disabled || $user->hasRole('admin')){
+            return ['status'=>'failed'];
+        }
+        $user->disabled = true;
+        $user->save();
+        return ['status'=>'success'];
+    }
+
+    public function enableUser(User $user){
+        if(!$user->disabled || $user->hasRole('admin')){
+            return ['status'=>'failed'];
+        }
+        $user->disabled = false;
+        $user->save();
+        return ['status'=>'success'];
     }
 }

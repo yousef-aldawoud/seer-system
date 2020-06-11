@@ -42,7 +42,7 @@ class UserActivationNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Email verification')
-            ->from('person.right.right@gmail.com')
+            ->from(env('MAIL_USERNAME'))
             ->view('emails.user-activation',['user'=>$user,'activation'=>$user->activations()->first()]);
     }
 

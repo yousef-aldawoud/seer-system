@@ -51,4 +51,12 @@ class PostReviewController extends Controller
         $review = $post->reviews()->where("user_id",auth()->id())->first();
         return $review ?? null;
     }
+
+    public function delete(PostReview $review){
+        if($review->user_id == auth()->id() || auth()->user()->hasRole("admin")){
+            $review->delete();
+            return ['status'=>'success'];
+        }
+        return ['status'=>'failed'];
+    }
 }

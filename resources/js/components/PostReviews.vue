@@ -5,6 +5,7 @@
       <div v-if="userReview && ! showEditReview" class="border-solid p-3">
         <h2>Your review</h2>
         <p>{{userReview.comment === null ? '':userReview.comment}}</p>
+        <v-btn color="red" @click="deleteReview(userReview.id)" dark>delete</v-btn>
         <v-icon v-for="i in 5" :key="i" :color="userReview.rating >= i ? 'blue':'grey'" >mdi-star</v-icon>
         <v-btn dark color="purple" @click="showEditReview = true">edit review</v-btn>
       </div>
@@ -105,6 +106,13 @@ export default {
         }).then(function(){
 
         });
+    },deleteReview(reviewID){
+      axios.delete('/post-reviews/'+reviewID+'/delete').then((response)=>{
+        if(response.data.status === 'success'){
+          this.getUserReview();
+          this.getReviews();
+        }
+      });
     }
   },
   mounted(){
